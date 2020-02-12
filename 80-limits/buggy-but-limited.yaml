@@ -24,13 +24,13 @@ spec:
       containers:
       - image: connorg/memory-exploder:0.0.0
         name: buggy
-      resources:
-        requests:
-          memory: "10Mi"
-          cpu: "100m"
-        limits:
-          memory: "100Mi"
-          cpu: "1000m"
+        resources:
+          requests:
+            memory: "10Mi"
+            cpu: "100m"
+          limits:
+            memory: "100Mi"
+            cpu: "1000m"
 ---
 apiVersion: v1
 kind: Service
