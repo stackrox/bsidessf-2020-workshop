@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nonroot
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  namespace: nonroot
+  labels:
+    app: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       app: server
+  template:
+    metadata:
+     labels:
+       app: server
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - image: connorg/simple-server:0.0.0-nonroot
+        name: server
+        imagePullPolicy: Always
+        command: ["/main", "-logPath", "", "-addr", "0.0.0.0:8080"]
+        volumeMounts:
+          - {name: allofetc, mountPath: /host/etc}
+          - {name: conf, mountPath: /etc/nginx/conf.d/}
+      volumes:
+        - {name: allofetc, hostPath: {path: /etc}}
+        - {name: conf, configMap: {name: nginxconf}}
+      securityContext:
+        runAsNonRoot: true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginxconf
+  namespace: nonroot
+# location / {
+#   return 301 https://$host$request_uri;
+# }
+data:
+  nginx.conf: |-
+    server {
+      listen 8080 default;
+      server_name my-test-server;
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  namespace: nonroot
+spec:
+  selector:
+    app: server
+  ports:
+    - name: http
+      protocol: TCP
+      nodePort: 30005
+      port: 30005
+      targetPort: 8080
+  type: NodePort

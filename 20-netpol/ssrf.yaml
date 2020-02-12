@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ssrf-bad
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: preview
+  namespace: ssrf-bad
+  labels:
+    app: preview
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: preview
+  template:
+    metadata:
+     labels:
+       app: preview
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - image: connorg/ssrf:0.0.1
+        name: preview
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssrf
+  namespace: ssrf-bad
+spec:
+  selector:
+    app: preview
+  ports:
+    - name: https
+      protocol: TCP
+      nodePort: 30001
+      port: 30001
+      targetPort: 8080
+  type: NodePort

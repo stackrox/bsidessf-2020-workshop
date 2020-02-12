@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: struts-bad
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  namespace: struts-bad
+  labels:
+    app: api-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       app: api-server
+  template:
+    metadata:
+     labels:
+       app: api-server
+       tier: web
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - image: connorg/struts:0.0.0
+        name: api
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: struts
+  namespace: struts-bad
+spec:
+  selector:
+    app: api-server
+  ports:
+    - name: https
+      protocol: TCP
+      nodePort: 30003
+      port: 30003
+      targetPort: 8080
+  type: NodePort

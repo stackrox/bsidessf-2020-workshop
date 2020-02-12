@@ -1,0 +1,7 @@
+FROM scratch
+
+COPY main /
+
+ENTRYPOINT ["/main"]
+
+USER 1000

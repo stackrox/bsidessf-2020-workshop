@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: buggy
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: buggy
+  namespace: buggy
+  labels:
+    app: buggy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: buggy
+  template:
+    metadata:
+     labels:
+       app: buggy
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - image: connorg/memory-exploder:0.0.0
+        name: buggy
+      resources:
+        requests:
+          memory: "10Mi"
+          cpu: "100m"
+        limits:
+          memory: "100Mi"
+          cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: buggy
+  namespace: buggy
+spec:
+  selector:
+    app: buggy
+  ports:
+    - name: https
+      protocol: TCP
+      nodePort: 30001
+      port: 30001
+      targetPort: 8080
+  type: NodePort

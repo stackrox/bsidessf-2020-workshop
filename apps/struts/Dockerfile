@@ -1,0 +1,22 @@
+# Copied from Docker Hub for reference.
+# https://hub.docker.com/r/piesecurity/apache-struts2-cve-2017-5638/dockerfile
+
+FROM piesecurity/apache-struts2-cve-2017-5638 as struts
+
+FROM tomcat:7
+
+MAINTAINER piesecurity <admin@pie-secure.org>
+
+RUN set -ex \
+	&& rm -rf /usr/local/tomcat/webapps/* \
+	&& chmod a+x /usr/local/tomcat/bin/*.sh
+
+COPY --from=struts /usr/local/tomcat/webapps/ROOT.war /usr/local/tomcat/webapps/ROOT.war
+# Replaces:
+# COPY struts2-showcase-2.3.12.war /usr/local/tomcat/webapps/ROOT.war
+
+EXPOSE 8080
+
+# Add ps for convenience, so we can quickly view what's running in the container.
+RUN apt-get update && \
+    apt-get install -y psmisc

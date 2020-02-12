@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -eu
+
+../utils/struts struts-better "$HOST:30005"
