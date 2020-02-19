@@ -37,6 +37,8 @@ volumeMounts:
 
 We'll also mount `/etc` itself for extra fun.
 
+<!-- TODO: note that you read env vars with this mount, even if read-only. Also, the Docker socket—scream! -->
+
 ### Attack
 With our power to execute commands, we'll see what types of files we
 could modify, and what sorts of access they could provide.

@@ -15,6 +15,7 @@ Overall:
 
 60-nonroot:
  - Consider combining with 65-privileged and 70-caps
+ - For privileged, add Duffie's tweet-to-root
 
 90-metadata:
  - Write silly examples with tons of labels
