@@ -7,15 +7,16 @@ Overall:
  - Renumber examples once finalized
  - Show diffs between files. (Include commands for that?)
 
+ - Host static manifests; use them in commands
+
 50-ns:
  - Create apps with:
      - different namespaces
      - network policies
      - secrets that could be accidentally mounted
 
-60-nonroot:
- - Consider combining with 65-privileged and 70-caps
- - For privileged, add Duffie's tweet-to-root
+70-caps:
+ - write it
 
 90-metadata:
  - Write silly examples with tons of labels

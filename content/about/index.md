@@ -8,6 +8,7 @@ title = "About"
 draft = false
 toc = true
 menu = "main"
+weight = 2
 +++
 
 Created by [Connor Gilbert](https://twitter.com/connorgilbert) at [StackRox](https://stackrox.com),

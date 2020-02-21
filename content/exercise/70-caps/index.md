@@ -4,7 +4,7 @@ date = "2020-02-20"
 description = ""
 slug = ""
 tags = []
-title = "Limit Linux capabilities"
+title = "Minimize Linux capabilities"
 draft = false
 toc = true
 weight = 70
@@ -16,21 +16,21 @@ In this use case, we cover:
  - How to drop various capabilities in your apps
 
 ### How to use it yourself
-use the capabilities field in the pod securitycontext (container??)
-TODO
+use the capabilities field in the pod securitycontext (container??) rather than privileged mode
 
 to know what caps you need, consider "capable"
 
 remember that all of these changes should go through CI and testing
 
 ### Setup
-We'll exec directly into the container since that's easier.
+We'll exec directly into a container in this example.
 
-Note that we're starting with the default profile.
+TODO kubectl create with default caps + one added
 
 ### "Attack"
-Try a bunch of stuff, like ping and sudo.
-TODO
+Once we are in this shell, we can do some fun stuff to explore what we can do.
+
+TODO Try a bunch of stuff, like ping and sudo in the container
 
 ### Countermeasure
 Drop unnecessary capabilities

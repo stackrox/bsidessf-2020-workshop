@@ -1,9 +1,10 @@
----
-title: "Exercises"
-featured_image: ''
-description: ""
-menu: main
----
++++
+title = "Exercises"
+featured_image = ""
+description = ""
+menu = "main"
+weight = 1
++++
 
 Follow these exercises to learn about native controls you can use to lock down your Kubernetes applications.
 
