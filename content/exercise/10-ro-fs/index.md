@@ -7,6 +7,7 @@ tags = []
 title = "Read-only root file system"
 draft = false
 toc = true
+weight = 10
 +++
 
 ### Introduction

@@ -7,6 +7,7 @@ tags = []
 title = "Bonus: Apply good, consistent metadata"
 draft = false
 toc = true
+weight = 90
 +++
 
 ### Introduction

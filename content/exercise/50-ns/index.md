@@ -7,6 +7,7 @@ tags = []
 title = "Use separate namespaces"
 draft = false
 toc = true
+weight = 50
 +++
 
 ### Introduction

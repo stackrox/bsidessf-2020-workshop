@@ -4,19 +4,23 @@ date = "2020-02-20"
 description = ""
 slug = ""
 tags = []
-title = "Limit Linux capabilities"
+title = "Avoid privileged mode"
 draft = false
 toc = true
+weight = 65
 +++
 
 ### Introduction
 In this use case, we cover:
- - How Linux capabilities work
- - How to drop various capabilities in your apps
+ - What `--privileged` mode does
+ - The crazy things it allows
+ - How you might be able to replace it
+TODO
+
+TODO combine with caps example? lots of overlap in what you do to fix it
 
 ### How to use it yourself
-use the capabilities field in the pod securitycontext (container??)
-TODO
+use the capabilities field in the pod securitycontext (container??) rather than privileged mode
 
 to know what caps you need, consider "capable"
 
@@ -25,10 +29,8 @@ remember that all of these changes should go through CI and testing
 ### Setup
 We'll exec directly into the container since that's easier.
 
-Note that we're starting with the default profile.
-
 ### "Attack"
-Try a bunch of stuff, like ping and sudo.
+Explore the host and
 TODO
 
 ### Countermeasure

@@ -7,6 +7,7 @@ tags = []
 title = "Read-only host mounts"
 draft = false
 toc = true
+weight = 15
 +++
 
 ### Introduction

@@ -3,3 +3,13 @@ languageCode = "en-us"
 title = "Kubernetes Built-in Controls Workshop"
 theme = "ananke"
 copyright = "Connor Gilbert and StackRox, Inc."
+
+menus = ["main"]
+
+Paginate = 15
+SectionPagesMenu = "section"
+
+mainSections = []
+
+[params]
+  recent_posts_number = 0

@@ -7,6 +7,7 @@ tags = []
 title = "Disable service account token auto-provisioning"
 draft = false
 toc = true
+weight = 30
 +++
 
 TODO: Tune RBAC as a separate item? (see 40-rbac)

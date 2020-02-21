@@ -7,6 +7,7 @@ tags = []
 title = "Streamlined images"
 draft = false
 toc = true
+weight = 1
 +++
 
 ### Introduction

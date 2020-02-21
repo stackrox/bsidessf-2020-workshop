@@ -7,6 +7,7 @@ tags = []
 title = "Network policies"
 draft = false
 toc = true
+weight = 20
 +++
 
 ### Introduction
