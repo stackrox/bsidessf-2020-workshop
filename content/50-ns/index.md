@@ -1,4 +1,13 @@
-## Separate services into namespaces
++++
+categories = []
+date = "2020-02-20"
+description = ""
+slug = ""
+tags = []
+title = "Use separate namespaces"
+draft = false
+toc = true
++++
 
 ### Introduction
 In this use case, we cover:

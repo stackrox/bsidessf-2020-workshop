@@ -1,4 +1,13 @@
-## Read-only root file system
++++
+categories = []
+date = "2020-02-20"
+description = ""
+slug = ""
+tags = []
+title = "Read-only host mounts"
+draft = false
+toc = true
++++
 
 ### Introduction
 In this use case, we cover:

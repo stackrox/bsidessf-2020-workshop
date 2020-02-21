@@ -1,4 +1,13 @@
-## Use a non-root user
++++
+categories = []
+date = "2020-02-20"
+description = ""
+slug = ""
+tags = []
+title = "Avoid privileged mode"
+draft = false
+toc = true
++++
 
 ### Introduction
 In this use case, we cover:
@@ -20,7 +29,7 @@ remember that all of these changes should go through CI and testing
 We'll exec directly into the container since that's easier.
 
 ### "Attack"
-Explore the host and 
+Explore the host and
 TODO
 
 ### Countermeasure

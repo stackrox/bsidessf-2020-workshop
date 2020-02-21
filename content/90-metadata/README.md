@@ -1,4 +1,13 @@
-## Bonus good idea: use good metadata
++++
+categories = []
+date = "2020-02-20"
+description = ""
+slug = ""
+tags = []
+title = "Bonus: Apply good, consistent metadata"
+draft = false
+toc = true
++++
 
 ### Introduction
 In this use case, we cover:

@@ -1,4 +1,13 @@
-## Streamlined images
++++
+categories = []
+date = "2020-02-20"
+description = ""
+slug = ""
+tags = []
+title = "Streamlined images"
+draft = false
+toc = true
++++
 
 ### Introduction
 In this use case, we cover:

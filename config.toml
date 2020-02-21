@@ -1,0 +1,5 @@
+baseURL = "https://securek8s.dev/"
+languageCode = "en-us"
+title = "Kubernetes Built-in Controls Workshop"
+theme = "ananke"
+copyright = "Connor Gilbert and StackRox, Inc."

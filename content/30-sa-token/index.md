@@ -1,4 +1,13 @@
-## Disable service account token provisioning
++++
+categories = []
+date = "2020-02-20"
+description = ""
+slug = ""
+tags = []
+title = "Disable service account token auto-provisioning"
+draft = false
+toc = true
++++
 
 TODO: Tune RBAC as a separate item? (see 40-rbac)
 
