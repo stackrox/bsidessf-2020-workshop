@@ -7,9 +7,8 @@ copyright = "Connor Gilbert and StackRox, Inc."
 menus = ["main"]
 
 Paginate = 15
-SectionPagesMenu = "section"
-
-mainSections = []
+SectionPagesMenu = ["section"]
 
 [params]
+  mainSections = ["post"] # Disable recent-content widget by using a non-existent content type
   recent_posts_number = 0
