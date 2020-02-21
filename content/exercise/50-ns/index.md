@@ -16,7 +16,7 @@ In this use case, we cover:
  - How various types of Kubernetes objects treat namespace boundaries
 
 ### How to use it yourself
-`kubectl create ns <your-namespace>`
+`kubectl create ns <your-namespace>` (or use a YAML, as shown in the example).
 
 Then include the namespace name in the `meta` for your object.
 

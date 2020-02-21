@@ -2,18 +2,19 @@ Overall:
  - Run through everything
  - Capture expected output
  - Clean up port numbers
- - Set up GCP project, GKE clusters, and user access
+ - Create GKE clusters
+ - Configure user access
  - Pre-stage firewall rules for nodeports
  - Renumber examples once finalized
  - Show diffs between files. (Include commands for that?)
 
  - Host static manifests; use them in commands
 
+20-netpol:
+ - Update to specify not blocking _all_ egress
+
 50-ns:
- - Create apps with:
-     - different namespaces
-     - network policies
-     - secrets that could be accidentally mounted
+ - Update steps
 
 70-caps:
  - write it
