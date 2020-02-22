@@ -34,10 +34,10 @@ spec:
   selector:
     app: preview
   ports:
-    - name: https
+    - name: http
       protocol: TCP
-      nodePort: 30002
-      port: 30002
+      nodePort: 30001
+      port: 30001
       targetPort: 8080
   type: NodePort
 ---

@@ -34,7 +34,7 @@ spec:
   selector:
     app: preview
   ports:
-    - name: https
+    - name: http
       protocol: TCP
       nodePort: 30001
       port: 30001
