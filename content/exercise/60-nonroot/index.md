@@ -66,6 +66,7 @@ whoami
 Then, we can do a variety of things to the host, because we're running as root:
 ```
 echo "169.254.169.254 example.com" >> /host/etc/hosts
+cat /host/etc/hosts
 ```
 
 Can you think of anything else?
@@ -79,17 +80,23 @@ See the diff:
 kubectl diff -f https://securek8s.dev/simple-server/app-not-allowed.yaml
 ```
 
+Note that we haven't bumped the image to _actually_ use a non-root user—a common mistake.
+
 Then, roll out the change:
 ```
 kubectl apply -f https://securek8s.dev/simple-server/app-not-allowed.yaml
 ```
 
-You'll see that the pods are failing:
+You'll see that the pods are failing to create:
 ```
 kubectl get pod -n nonroot
 ```
 
-Next, we'll change to an image that's been prepared to run as non-root. We'll see how this can still be exposed using a Service.
+The error is `Error: container has runAsNonRoot and image will run as root`.
+As a result, our old deployment config is still active.
+
+Next, we'll change to an image that's _actually_ been prepared to run as non-root.
+We'll see how this can still be exposed on the same port using a Service, even though thee container has switched from 80 to 8080.
 
 See the diff in the Dockerfile:
 ```
@@ -106,6 +113,11 @@ Then, roll out the change:
 kubectl apply -f https://securek8s.dev/simple-server/app-nonroot.yaml
 ```
 
+Our change successfully rolls out:
+```
+kubectl get pod -n nonroot -w
+```
+
 ### Attack effects after patching
 Once we successfully run as a non-root user, we are a bit more constrained in what we can do to the host. If we repeat our attempts to modify `/host/etc` we will fail.
 
@@ -118,15 +130,14 @@ You can set the `runAsNonRoot` flag in your pod spec to prevent accidentally run
 You can also require `runAsNonRoot` using admission control.
 
 ### References
-[Runtimes and Curse of the Privileged Container](https://brauner.github.io/2019/02/12/privileged-containers.html) in LXC and LXD.
+- [Runtimes and Curse of the Privileged Container](https://brauner.github.io/2019/02/12/privileged-containers.html) in LXC and LXD.
 
-[A container-confinement breakout](https://lwn.net/Articles/781013/) in runC (and runtimes that rely on it, including Docker, Podman, CRI-O, and containerd).
-
-(Note that these articles define privileged containers as
+- [A container-confinement breakout](https://lwn.net/Articles/781013/) in runC (and runtimes that rely on it, including Docker, Podman, CRI-O, and containerd).
+  Note that these articles define privileged containers as
 "a container where the semantics for id 0 are the same inside and outside of the container ceteris paribus"--
-this is not the same as the `--privileged` option in Docker.)
+this is not the same as the `--privileged` option in Docker.
 
-[Running non-root containers on OpenShift](https://engineering.bitnami.com/articles/running-non-root-containers-on-openshift.html) and associated [documentation](https://docs.bitnami.com/containers/how-to/work-with-non-root-containers/)
+- [Running non-root containers on OpenShift](https://engineering.bitnami.com/articles/running-non-root-containers-on-openshift.html) and associated [documentation](https://docs.bitnami.com/containers/how-to/work-with-non-root-containers/)
 
 ### Next up
 We'll cover the `--privileged` mode in the next exercise:

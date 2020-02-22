@@ -17,13 +17,6 @@ In this exercise, we cover:
  - The crazy things it allows
  - How you might be able to replace it
 
-### How to use it yourself
-use the capabilities field in the pod securitycontext (container??) rather than privileged mode
-
-to know what caps you need, consider "capable"
-
-remember that all of these changes should go through CI and testing
-
 ### Setup
 We'll exec directly into a container in this example.
 
@@ -71,6 +64,7 @@ Here's that spec again, pretty-printed:
 ```
 
 You'll notice:
+
  - `"hostPID": true` — The container is entering the host's process (PID) namespace
  - `"privileged": true` — The container is running in `--privileged` mode
  - `"stdin": true, "tty": true` — We'll attach a terminal to the running container when it starts
@@ -80,14 +74,16 @@ You'll notice:
 Once we are in this shell, we can do some fun stuff to explore the host and learn about other processes and containers.
 
 ```
-ls /proc/*/env
+ls /proc/*/environ
 
 pgrep -a nginx
 (nsenter -n -t $(pgrep nginx | head -n1) ss -ln)
 (nsenter -m -t $(pgrep nginx | head -n1) cat /etc/nginx/nginx.conf)
+
+(nsenter -m -t 1 cat /etc/resolv.conf)
 ```
 
-TODO host manipulations
+Can you think of anything else you'd want to do to the host while we're here?
 
 ### Countermeasure
 Avoid `--privileged` mode and `hostPID` unless super necessary.
@@ -96,10 +92,30 @@ Consider applying admission control (using a dynamic admission controller or a `
 
 ### Attack effects after patching
 
-- With `hostPID: false`:
-- With `privileged: false`:
-- With both:
+Let's start just changing `hostPID: false`.
 
+```
+kubectl run r00t --restart=Never -ti --rm --image lol --overrides '{"spec":{ "containers":[{"name":"1","image":"alpine","command":["nsenter","--mount=/proc/1/ns/mnt","--","/bin/bash"],"stdin": true,"tty":true,"securityContext":{"privileged":true}}]}}'
+```
+
+We can also try with `privileged: false`:
+```
+kubectl run r00t --restart=Never -ti --rm --image lol --overrides '{"spec":{"hostPID": true, "containers":[{"name":"1","image":"alpine","command":["nsenter","--mount=/proc/1/ns/mnt","--","/bin/bash"],"stdin": true,"tty":true}]}}'
+```
+
+Note that neither succeeds because we either lack `/bin/bash` (a side-effect of staying in our Alpine container's `pid 1` instead of the host's) or we can't actually mount the process's mount (a side-effect of not being `--privileged`).
+
+### How to use it yourself
+Use the capabilities setting in the `securityContext` rather than privileged mode, if you can.
+There are limited circumstances where you can and can't do this, which are hard to enumerate.
+
+To know what caps you need, consider [`capable`](http://www.brendangregg.com/blog/2016-10-01/linux-bcc-security-capabilities.html).
+
+Remember that all of these changes should go through CI and testing, like any code change.
+You need to be sure all of your important flows are exercised if you want to have confidence in this change.
+
+### Advertisement
+Go see Maya and Frenchie's talk tomorrow at 11am about privileged containers!
 
 ### Next up
 We'll cover Linux capabilities in the next exercise:
