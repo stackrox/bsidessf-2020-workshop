@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -eu
+
+echo "$(kubectl get node --output=jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}')"

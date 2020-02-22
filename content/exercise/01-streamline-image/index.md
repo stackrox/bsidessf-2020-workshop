@@ -33,12 +33,18 @@ Check out the base Dockerfile before we continue:
 less apps/struts/Dockerfile
 ```
 
+Now, deploy the application:
+
+```
+kubectl create -f https://securek8s.dev/struts/base.yaml
+```
+
 ### Attack
 Use a canned exploit to launch a shell, download new code,
 and run it.
 
 ```
-apps/struts/attack [endpoint]
+apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
 ```
 
 ### Countermeasure
