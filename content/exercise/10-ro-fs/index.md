@@ -65,7 +65,7 @@ kubectl diff -f https://securek8s.dev/struts/ro.yaml
 Now that we see the difference, let's deploy the read-only app:
 
 ```
-kubectl apply -f --dry-run https://securek8s.dev/struts/ro.yaml
+kubectl apply -f https://securek8s.dev/struts/ro.yaml
 ```
 
 Wait for it to deploy:

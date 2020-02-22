@@ -25,25 +25,15 @@ spec:
       - image: nginx:latest
         name: nginx
         volumeMounts:
-          - {name: dockersocket, mountPath: /var/run/docker.sock}
+          - {name: dockersocket, mountPath: /var/run/docker.sock, readOnly: true}
           - {name: procdir, mountPath: /host/proc, readOnly: true}
           - {name: cgroups, mountPath: /host/sys/fs/cgroup, readOnly: true}
           - {name: s6-run, mountPath: /var/run/s6}
-          - {name: logpodpath, mountPath: /var/log/pods}
-          ## Docker runtime directory, replace this path with your container runtime
-          ## logs directory, or remove this configuration if `/var/log/pods`
-          ## is not a symlink to any other directory.
-          - {name: logcontainerpath, mountPath: /var/lib/docker/containers}
           # This one is not from Datadog:
-          - {name: allofetc, mountPath: /host/etc, readOnly: true}
+          - {name: etchostname, mountPath: /host/etc/hostname, readOnly: true}
       volumes:
         - {name: dockersocket, hostPath: {path: /var/run/docker.sock}}
         - {name: procdir, hostPath: {path: /proc}}
         - {name: cgroups, hostPath: {path: /sys/fs/cgroup}}
         - {name: s6-run, emptyDir: {}}
-        - {name: logpodpath, hostPath: {path: /var/log/pods}}
-        ## Docker runtime directory, replace this path with your container runtime
-        ## logs directory, or remove this configuration if `/var/log/pods`
-        ## is not a symlink to any other directory.
-        - {name: logcontainerpath, hostPath: {path: /var/lib/docker/containers}}
-        - {name: allofetc, hostPath: {path: /etc}}
+        - {name: etchostname, hostPath: {path: /etc/hostname}}
