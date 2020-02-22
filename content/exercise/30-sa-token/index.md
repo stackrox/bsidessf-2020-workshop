@@ -10,10 +10,11 @@ toc = true
 weight = 30
 +++
 
-TODO: Tune RBAC as a separate item? (see 40-rbac)
+<!-- TODO: Tune RBAC as a separate item? (see 40-rbac) -->
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
+
  - How service account identities are given to pods
  - What access they have
  - How you can remove them if you don't need them

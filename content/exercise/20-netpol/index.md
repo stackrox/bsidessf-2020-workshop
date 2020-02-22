@@ -11,7 +11,8 @@ weight = 20
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
+
  - Interesting types of access that pods have
  - How you can effectively limit network access
 

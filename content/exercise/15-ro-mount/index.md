@@ -11,23 +11,10 @@ weight = 15
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
+
  - The risk of host mounts
  - How to use read-only mounts if they suffice
-
-### How to use it yourself
-If you use an application that needs to know something about the host,
-you might need to mount a host path.
-
-You can minimize the risk that such mounts poses by:
- - marking them read-only, and
- - minimizing the mount surface to just what's required.
-
- Note: container runtimes will sometimes _create_ files on your host
- if they do not exist, which can be a problem if you want to mount
- a path that might not exist yet.
- This is particularly annoying when you try to mount a specific file
- and the runtime creates a directory.
 
 ### Setup
 In this example, we'll just directly use a shell inside the app.
@@ -63,3 +50,17 @@ depending on the access we actually need.
 ### Attack effects after patching
 Can't mess with stuff if you can't write to it, or
 find out information you can't read!
+
+### How to use it yourself
+If you use an application that needs to know something about the host,
+you might need to mount a host path.
+
+You can minimize the risk that such mounts poses by:
+ - marking them read-only, and
+ - minimizing the mount surface to just what's required.
+
+Note: container runtimes will sometimes _create_ files on your host
+if they do not exist, which can be a problem if you want to mount
+a path that might not exist yet.
+This is particularly annoying when you try to mount a specific file
+and the runtime creates a directory.

@@ -11,7 +11,8 @@ weight = 90
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
+
  - What you can tag objects with in Kubernetes
  - How this is helpful if you have to debug an issue or incident
 

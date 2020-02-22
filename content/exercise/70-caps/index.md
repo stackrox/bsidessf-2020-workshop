@@ -11,7 +11,8 @@ weight = 70
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
+
  - How Linux capabilities work
  - How to drop various capabilities in your apps
 

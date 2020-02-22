@@ -11,7 +11,8 @@ weight = 60
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
+
  - How user identities work in Kubernetes
  - How to use a non-root user ID and enforce this in the future
 

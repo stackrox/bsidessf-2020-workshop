@@ -11,7 +11,8 @@ weight = 50
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
+
  - What namespaces are
  - How various types of Kubernetes objects treat namespace boundaries
 

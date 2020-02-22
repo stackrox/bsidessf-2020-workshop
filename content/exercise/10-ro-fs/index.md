@@ -11,7 +11,7 @@ weight = 10
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
 
  - How to mark the root of your container read-only
  - How to make certain paths writable if you need to
@@ -35,13 +35,13 @@ kubectl apply -f https://securek8s.dev/struts/base.yaml
 Wait for it to deploy:
 
 ```
-kubectl get pod -n struts-bad -w
+kubectl get pod -n struts -w
 ```
 
 ### Attack
 
 ```
-apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
+apps/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
 ### Countermeasure
@@ -54,22 +54,30 @@ Check out what's different in the Dockerfile:
 diff apps/struts/Dockerfile apps/struts/Dockerfile-ro
 ```
 
-Then, deploy the read-only app:
+Not too much! Just a path we want to make writable.
+
+What about the deployment? We can use a neat command, `kubectl diff`, to compare our new YAML with the currently-running app.
 
 ```
-kubectl apply -f https://securek8s.dev/struts/ro.yaml
+kubectl diff -f https://securek8s.dev/struts/ro.yaml
+```
+
+Now that we see the difference, let's deploy the read-only app:
+
+```
+kubectl apply -f --dry-run https://securek8s.dev/struts/ro.yaml
 ```
 
 Wait for it to deploy:
 
 ```
-kubectl get pod -n struts-bad -w
+kubectl get pod -n struts -w
 ```
 
 Then we'll attack it:
 
 ```
-apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
+apps/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
 👍
@@ -87,8 +95,9 @@ field called `readOnlyRootFilesystem`.
 If you need a writable path, use a `VOLUME` instruction
 (if you deploy only on clusters or machines running Docker)
 or mount a Kubernetes `emptyDir` if you want a solution that
-works on other runtimes (especially CRI-O).
-<!-- TODO: add reference to CRI-O bug ticket -->
+works on other runtimes (especially CRI-O, which by default simply
+[ignores](https://medium.com/cri-o/cri-o-configurable-image-volume-support-dda7b54f4bda)
+your `VOLUME` declarations).
 
 ### Next up
 We'll explore host mounts, and their read-only bit, in the next exercise:

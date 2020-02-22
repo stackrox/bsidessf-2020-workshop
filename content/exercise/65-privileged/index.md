@@ -11,7 +11,8 @@ weight = 65
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
+
  - What `--privileged` mode does
  - The crazy things it allows
  - How you might be able to replace it

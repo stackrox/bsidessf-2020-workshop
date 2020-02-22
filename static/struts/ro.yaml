@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: struts-bad
+  name: struts
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-server
-  namespace: struts-bad
+  namespace: struts
   labels:
     app: api-server
 spec:
@@ -34,7 +34,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: struts
-  namespace: struts-bad
+  namespace: struts
 spec:
   selector:
     app: api-server

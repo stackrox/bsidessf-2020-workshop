@@ -11,7 +11,7 @@ weight = 80
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
 TODO
 
 ### How to use it yourself

@@ -11,7 +11,7 @@ weight = 2
 +++
 
 ### Introduction
-In this use case, we cover:
+In this exercise, we cover:
 
  - Removing unnecessary tools from an image
  - Changing the base image to a slimmer one
@@ -43,7 +43,7 @@ kubectl apply -f https://securek8s.dev/struts/base.yaml
 Wait for it to deploy:
 
 ```
-kubectl get pod -n struts-bad -w
+kubectl get pod -n struts -w
 ```
 
 ### Attack
@@ -51,7 +51,7 @@ Use a canned exploit that launches a shell, downloads a cryptominer,
 and runs it.
 
 ```
-apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
+apps/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
 😱
@@ -76,13 +76,13 @@ kubectl apply -f https://securek8s.dev/struts/streamlined.yaml
 Wait for it to deploy:
 
 ```
-kubectl get pod -n struts-bad -w
+kubectl get pod -n struts -w
 ```
 
 Then we'll attack it:
 
 ```
-apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
+apps/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
 👍
