@@ -99,3 +99,9 @@ Consider applying admission control (using a dynamic admission controller or a `
 - With `hostPID: false`:
 - With `privileged: false`:
 - With both:
+
+
+### Next up
+We'll cover Linux capabilities in the next exercise:
+
+[**Minimize Linux capabilities**](../70-caps)

@@ -58,3 +58,8 @@ to reach out to the Internet or to underlying infrastructure.
 If an adversary can run code or cause network requests in your
 pods, they will have a harder time finding out more about your
 infrastructure or spreading through it.
+
+### Next up
+We'll move on to Kubernetes service accounts and RBAC in the next exercise:
+
+[**Tune Kubernetes RBAC and account provisioning**](../30-sa-token)

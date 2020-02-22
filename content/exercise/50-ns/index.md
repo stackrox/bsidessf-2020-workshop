@@ -42,3 +42,8 @@ Move deployments into separate namespaces.
 ### Attack effects after patching
 Some network accesses are no longer accidentally allowed by policy.
 TODO additional
+
+### Next up
+We'll cover the use of non-root user identities in the next exercise:
+
+[**Use a non-root user**](../60-nonroot)

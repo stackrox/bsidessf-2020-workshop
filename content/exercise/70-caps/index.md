@@ -39,3 +39,8 @@ Drop unnecessary capabilities
 ### Attack effects after patching
 Can't do what they wanted to
 TODO
+
+### Next up
+We'll cover resource limits in the next exercise:
+
+[**Set resource limits**](../80-limits)

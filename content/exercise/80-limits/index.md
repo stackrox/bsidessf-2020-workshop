@@ -53,3 +53,8 @@ Apply a memory and CPU limit.
 ### Attack effects after patching
 The app crashes and restarts instead of causing nodes to
 become unstable or crash.
+
+### Next up
+We'll cover effective metadata in the next exercise:
+
+[**Bonus: Apply good, consistent metadata**](../90-metadata)

@@ -64,3 +64,8 @@ if they do not exist, which can be a problem if you want to mount
 a path that might not exist yet.
 This is particularly annoying when you try to mount a specific file
 and the runtime creates a directory.
+
+### Next up
+We'll pivot to network policies in the next exercise:
+
+[**Network policies**](../20-netpol)

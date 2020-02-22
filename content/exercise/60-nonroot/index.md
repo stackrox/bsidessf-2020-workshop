@@ -58,3 +58,8 @@ Can't do what they wanted to!
 this is not the same as the `--privileged` option in Docker.)
 
 [Running non-root containers on OpenShift](https://engineering.bitnami.com/articles/running-non-root-containers-on-openshift.html) and associated [documentation](https://docs.bitnami.com/containers/how-to/work-with-non-root-containers/)
+
+### Next up
+We'll cover the `--privileged` mode in the next exercise:
+
+[**Avoid privileged mode**](../65-privileged)

@@ -4,7 +4,7 @@ date = "2020-02-20"
 description = ""
 slug = ""
 tags = []
-title = "Disable service account token auto-provisioning"
+title = "Tune Kubernetes RBAC and account provisioning"
 draft = false
 toc = true
 weight = 30
@@ -86,3 +86,8 @@ You can't find out what you're allowed to do, either:
 ```
 ./kubectl auth can-i --list
 ```
+
+### Next up
+We'll cover how namespaces can help you implement security "speed bumps" in the next exercise:
+
+[**Use separate namespaces**](../50-ns)
