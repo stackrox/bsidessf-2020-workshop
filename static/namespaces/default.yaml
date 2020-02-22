@@ -1,17 +1,14 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: default
----
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: default-deny-all
-  namespace: default
+  name: allow-same-namespace
 spec:
   podSelector: {}
   policyTypes:
   - Ingress
+  ingress:
+  - from:
+    - podSelector: {}
 ---
 apiVersion: v1
 kind: Secret
