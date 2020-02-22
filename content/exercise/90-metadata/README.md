@@ -16,14 +16,6 @@ In this exercise, we cover:
  - What you can tag objects with in Kubernetes
  - How this is helpful if you have to debug an issue or incident
 
-### How to use it yourself
-Decide on a scheme. Then, apply labels and annotations
-in the `meta` part of your YAMLs.
-
-Note that, if you want to apply labels to pods, you have to
-put them in your pod template, not just on the Deployment
-or other higher-level object.
-
 ### Setup
 Deploy the example YAML without metadata.
 
@@ -40,3 +32,14 @@ Now we can use label filters. Neat!
 `kubectl get deploy -l app=server -n meta`
 
 `kubectl get deploy -l team=backend-dataproc -n meta`
+
+### How to use it yourself
+Decide on a scheme. Then, apply labels and annotations
+in the `meta` part of your YAMLs.
+
+Note that, if you want to apply labels to pods, you have to
+put them in your pod template, not just on the Deployment
+or other higher-level object.
+
+### Next up
+All done for now! 🙂

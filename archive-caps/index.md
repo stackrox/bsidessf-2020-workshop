@@ -5,7 +5,7 @@ description = ""
 slug = ""
 tags = []
 title = "Minimize Linux capabilities"
-draft = false
+draft = true
 toc = true
 weight = 70
 +++

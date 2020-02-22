@@ -36,7 +36,7 @@ spec:
   ports:
     - name: https
       protocol: TCP
-      nodePort: 30001
-      port: 30001
+      nodePort: 30002
+      port: 30002
       targetPort: 8080
   type: NodePort

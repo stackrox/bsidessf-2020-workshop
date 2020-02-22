@@ -118,6 +118,6 @@ You need to be sure all of your important flows are exercised if you want to hav
 Go see Maya and Frenchie's talk tomorrow at 11am about privileged containers!
 
 ### Next up
-We'll cover Linux capabilities in the next exercise:
+We'll cover resource limits in the next exercise:
 
-[**Minimize Linux capabilities**](../70-caps)
+[**Set resource limits**](../80-limits)
