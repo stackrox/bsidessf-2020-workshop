@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: struts-good
+  name: struts-bad
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-server
-  namespace: struts-good
+  namespace: struts-bad
   labels:
     app: api-server
 spec:
@@ -34,14 +34,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: struts
-  namespace: struts-good
+  namespace: struts-bad
 spec:
   selector:
     app: api-server
   ports:
     - name: https
       protocol: TCP
-      nodePort: 30004
-      port: 30004
+      nodePort: 30003
+      port: 30003
       targetPort: 8080
   type: NodePort

@@ -37,7 +37,7 @@ less apps/struts/Dockerfile
 Now, deploy the application:
 
 ```
-kubectl create -f https://securek8s.dev/struts/base.yaml
+kubectl apply -f https://securek8s.dev/struts/base.yaml
 ```
 
 Wait for it to deploy:
@@ -57,9 +57,17 @@ apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
 😱
 
 ### Countermeasure
-First, we'll update to a new image without common tools.
+We'll update to a new image with some common tools removed, mostly via a slimmer base image.
 
-Deploy the streamlined app:
+Check out what's different in the Dockerfile:
+
+```
+diff apps/struts/Dockerfile apps/struts/Dockerfile-streamlined
+```
+
+And [see the difference between image versions in Quay.io](https://quay.io/repository/connorg/struts?tab=tags).
+
+Then, deploy the streamlined app:
 
 ```
 kubectl apply -f https://securek8s.dev/struts/streamlined.yaml
@@ -77,10 +85,12 @@ Then we'll attack it:
 apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
 ```
 
+👍
+
 ### Attack effects after patching
 The adversary is annoyed by your minimal environment and has to
-come up with another way of installing code... or they move on to
-another target!
+come up with another way of installing code... or, if you're lucky,
+they move on to another target!
 
 ### How to use it yourself
 During the workshop, we'll only compare Dockerfiles and
@@ -92,3 +102,8 @@ musl libc, which is occasionally different from glibc in
 important ways. DNS behavior is a particularly surprising one
 to troubleshoot at runtime. There are many articles and issues;
 see, e.g., [this one about Python](https://pythonspeed.com/articles/alpine-docker-python/).
+
+### Next up
+We'll apply a different lock-down to this app in the next exercise:
+
+[**Use a read-only root file system**](../10-ro-fs)

@@ -4,9 +4,7 @@
 # Otherwise, the Dockerfile lines are the same.
 FROM piesecurity/apache-struts2-cve-2017-5638 as struts
 
-# Change: Use the "-slim" variant of the Tomcat base image.
-# The slim version includes many fewer packages.
-FROM tomcat:7-slim
+FROM tomcat:7
 
 MAINTAINER piesecurity <admin@pie-secure.org>
 
