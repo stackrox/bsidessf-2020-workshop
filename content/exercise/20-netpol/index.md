@@ -75,8 +75,22 @@ Also, try our Struts exploit out again.
 ### Countermeasure
 We'll apply an egress NetworkPolicy that blocks access to these services.
 
+See what's changed:
+
+```
+kubectl diff -f https://securek8s.dev/ssrf/egress-disabled.yaml
+```
+
+Now deploy:
+
+```
+kubectl apply -f https://securek8s.dev/ssrf/egress-disabled.yaml
+```
+
 We'll see how this egress policy allows us to contact our app from the outside, but doesn't let adversaries reach *back out from inside* to download tools.
 (Kubernetes policies apply to connections--not to packets.)
+
+To do this, just try the examples above again.
 
 ### Attack effects after patching
 The adversary won't be able to use your app's network connection
