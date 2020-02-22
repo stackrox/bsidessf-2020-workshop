@@ -1,6 +1,6 @@
 +++
 categories = []
-date = "2020-02-20"
+date = "2020-02-22"
 description = ""
 slug = ""
 tags = []
@@ -16,37 +16,106 @@ In this exercise, we cover:
  - How user identities work in Kubernetes
  - How to use a non-root user ID and enforce this in the future
 
-### How to use it yourself
-TODO verify effects of each part
-
-change image
-set runAsNonRoot in pod
-require runAsNonRoot in PSP or AC
-
-Note that most clusters run without username remapping,
-so generally the container root identity is the same as the host root.
-
-### Setup
-For simplicity, we'll use a shell directly in this case.
-
 We will show how running as root:
+
  - Is the default behavior
  - Lets you modify host files if mounted
  - Allows other host modifications
  - Still blocks other host modifications due to other controls
    (more on this in the following exercise)
 
+Note that almost all clusters run without username remapping,
+so generally the `root` user in the container is the same as the `root` user on the host.
+
+### Setup
+For simplicity, we'll use a shell directly in this case.
+
+Before we deploy, let's see what this app does.
+Use the Cloud Shell Editor, or open the code your terminal:
+
+```
+less apps/simple-server/main.go
+less apps/simple-server/Dockerfile
+```
+
+Let's get deployed:
+
+```
+kubectl apply -f https://securek8s.dev/simple-server/app.yaml
+```
+
 ### "Attack"
-`echo "169.254.169.254 example.com" >> /host/etc/hosts`
+Let's find a pod:
+
+```
+kubectl get po -n nonroot
+```
+
+And exec into it:
+```
+kubectl exec -it -n nonroot <pod> sh
+```
+
+_Note:_ We're using `sh` now because this is an Alpine image.
+
+Check who you are:
+```
+whoami
+```
+
+Then, we can do a variety of things to the host, because we're running as root:
+```
+echo "169.254.169.254 example.com" >> /host/etc/hosts
+```
+
+Can you think of anything else?
 
 ### Countermeasure
 First, we'll set `runAsNonRoot` in the pod's `securityContext`.
-This will prevent anyone from accidentally running the container as root.
+This will prevent anyone from accidentally running a container as root.
 
-Then we'll change to an image that's been prepared to run as non-root. We'll show how this can still be exposed using a Service.
+See the diff:
+```
+kubectl diff -f https://securek8s.dev/simple-server/app-not-allowed.yaml
+```
+
+Then, roll out the change:
+```
+kubectl apply -f https://securek8s.dev/simple-server/app-not-allowed.yaml
+```
+
+You'll see that the pods are failing:
+```
+kubectl get pod -n nonroot
+```
+
+Next, we'll change to an image that's been prepared to run as non-root. We'll see how this can still be exposed using a Service.
+
+See the diff in the Dockerfile:
+```
+diff apps/simple-server/Dockerfile apps/simple-server/Dockerfile-nonroot
+```
+
+...and in the YAML:
+```
+kubectl diff -f https://securek8s.dev/simple-server/app-nonroot.yaml
+```
+
+Then, roll out the change:
+```
+kubectl apply -f https://securek8s.dev/simple-server/app-nonroot.yaml
+```
 
 ### Attack effects after patching
-Can't do what they wanted to!
+Once we successfully run as a non-root user, we are a bit more constrained in what we can do to the host. If we repeat our attempts to modify `/host/etc` we will fail.
+
+### How to use it yourself
+In most cases, you'll need at least a simple modification to your `Dockerfile` to set the non-root user ID.
+In some cases, the app may need more substantial changes.
+
+You can set the `runAsNonRoot` flag in your pod spec to prevent accidentally running as root.
+
+You can also require `runAsNonRoot` using admission control.
 
 ### References
 [Runtimes and Curse of the Privileged Container](https://brauner.github.io/2019/02/12/privileged-containers.html) in LXC and LXD.

@@ -22,7 +22,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 0
       containers:
-      - image: connorg/simple-server:0.0.0
+      - image: connorg/simple-server:0.0.1
         name: server
         imagePullPolicy: Always
         volumeMounts:
