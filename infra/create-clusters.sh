@@ -2,7 +2,6 @@
 
 set -e
 
-# 25
 for i in `seq 1 25`; do
   gcloud container clusters create "workshop-$i" \
   --project bsides-workshop \

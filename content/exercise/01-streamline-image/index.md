@@ -12,6 +12,7 @@ weight = 2
 
 ### Introduction
 In this use case, we cover:
+
  - Removing unnecessary tools from an image
  - Changing the base image to a slimmer one
 
@@ -39,16 +40,42 @@ Now, deploy the application:
 kubectl create -f https://securek8s.dev/struts/base.yaml
 ```
 
+Wait for it to deploy:
+
+```
+kubectl get pod -n struts-bad -w
+```
+
 ### Attack
-Use a canned exploit to launch a shell, download new code,
-and run it.
+Use a canned exploit that launches a shell, downloads a cryptominer,
+and runs it.
 
 ```
 apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
 ```
 
+😱
+
 ### Countermeasure
-Update to a new image without common tools.
+First, we'll update to a new image without common tools.
+
+Deploy the streamlined app:
+
+```
+kubectl apply -f https://securek8s.dev/struts/streamlined.yaml
+```
+
+Wait for it to deploy:
+
+```
+kubectl get pod -n struts-bad -w
+```
+
+Then we'll attack it:
+
+```
+apps/struts/attack struts-bad "$(./utils/get-node-extip):30003"
+```
 
 ### Attack effects after patching
 The adversary is annoyed by your minimal environment and has to
@@ -60,8 +87,8 @@ During the workshop, we'll only compare Dockerfiles and
 patch deployments to use different images, but you could
 apply similar techniques in images you build yourself.
 
-N.B.: If you want to use Alpine Linux, note that Alpine uses
+_Note:_ If you want to use Alpine Linux, note that Alpine uses
 musl libc, which is occasionally different from glibc in
 important ways. DNS behavior is a particularly surprising one
 to troubleshoot at runtime. There are many articles and issues;
-see, e.g., https://pythonspeed.com/articles/alpine-docker-python/.
+see, e.g., [this one about Python](https://pythonspeed.com/articles/alpine-docker-python/).
