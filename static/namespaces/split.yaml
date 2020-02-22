@@ -44,7 +44,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 0
       containers:
-      - image: connorg/simple-server:0.0.0
+      - image: nginx
         name: server
         imagePullPolicy: Always
         volumeMounts:
@@ -101,7 +101,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 0
       containers:
-      - image: connorg/simple-server:0.0.0
+      - image: nginx
         name: bad-server
         imagePullPolicy: Always
         volumeMounts:
