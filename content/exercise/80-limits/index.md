@@ -16,6 +16,8 @@ In this exercise, we cover:
  - How to set resource limits
  - What can happen if you don't
 
+_Note:_ This exercise needs a little bit of work, at least to use in Cloud Shell. It'll be updated soon.
+
 ### Setup
 In this example, we'll use an app with an exploitable
 memory exhaustion denial of service. This will be fun to watch...
