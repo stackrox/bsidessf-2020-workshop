@@ -1,0 +1,36 @@
+<!--
+Adapted from https://github.com/scgmlz/hugo-theme-scgdoc/blob/2ea1be12/layouts/shortcodes/highlightfile.html
+
+Highlights file and provides download link.
+File should be located either in the same directory or full path should be specified.
+-->
+
+{{- $src := (.Get "file") -}}
+{{- $lang := .Get "language" | default ("Docker") }}
+{{- $opt := .Get "opt" | default ("linenos=false") }}
+
+{{- if in $src "/" -}}
+  {{$file := $src | readFile}}
+  {{ highlight (print $file) $lang $opt}}
+
+  {{ $filelink := (replaceRE "^[/]+static" "" $src) }}
+  {{ $justTheSplit := split $filelink "/" }}
+  {{ $lastPartOnly := index (last 1 $justTheSplit) 0}}
+
+  {{ .Scratch.Set "link" $filelink }}
+  {{ .Scratch.Set "linkname" $lastPartOnly }}
+
+{{- else -}}
+  {{ $file := (printf "%s%s" $.Page.File.Dir $src) }}
+  {{ highlight (readFile (printf "content/%s" $file)) $lang $opt}}
+
+  {{ .Scratch.Set "link" $file }}
+  {{ .Scratch.Set "linkname" $src }}
+{{- end -}}
+
+{{ $link := .Scratch.Get "link" }}
+{{ $linkname := .Scratch.Get "linkname" }}
+<a class="linktofile" href="{{ .Site.BaseURL }}{{ $link }}" download="{{ $linkname }}" />
+  <img src="/assets/svg/feather-download.svg" alt="download" height="16" width="16" />
+  <span>{{ $linkname }}</span>
+</a>

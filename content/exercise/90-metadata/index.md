@@ -29,9 +29,13 @@ Add metadata.
 ### Attack effects after patching
 Now we can use label filters. Neat!
 
-`kubectl get deploy -l app=server -n meta`
+```
+kubectl get deploy -l app=server -n meta
+```
 
-`kubectl get deploy -l team=backend-dataproc -n meta`
+```
+kubectl get deploy -l team=backend-dataproc -n meta
+```
 
 ### How to use it yourself
 Decide on a scheme. Then, apply labels and annotations

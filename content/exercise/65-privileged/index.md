@@ -33,11 +33,9 @@ kubectl get pods -w
 
 To start, we'll use [Duffie Cooley's "one tweet to root"](https://twitter.com/mauilion/status/1129468485480751104)—it takes less than 280 characters!
 
-```
-kubectl run r00t --restart=Never -ti --rm --image lol --overrides '{"spec":{"hostPID": true, "containers":[{"name":"1","image":"alpine","command":["nsenter","--mount=/proc/1/ns/mnt","--","/bin/bash"],"stdin": true,"tty":true,"securityContext":{"privileged":true}}]}}'
-```
+{{< tweet 1129468485480751104 >}}
 
-Here's that spec again, pretty-printed:
+Here's that same spec, pretty-printed:
 ```json
 {
   "spec": {
@@ -109,13 +107,15 @@ Note that neither succeeds because we either lack `/bin/bash` (a side-effect of 
 Use the capabilities setting in the `securityContext` rather than privileged mode, if you can.
 There are limited circumstances where you can and can't do this, which are hard to enumerate.
 
-To know what caps you need, consider [`capable`](http://www.brendangregg.com/blog/2016-10-01/linux-bcc-security-capabilities.html).
+To know what caps you need, consider [`capable`](http://www.brendangregg.com/blog/2016-10-01/linux-bcc-security-capabilities.html) or a similar tool.
 
 Remember that all of these changes should go through CI and testing, like any code change.
 You need to be sure all of your important flows are exercised if you want to have confidence in this change.
 
-### Advertisement
-Go see Maya and Frenchie's talk tomorrow at 11am about privileged containers!
+### "Advertisement"
+Watch Maya and Frenchie's BSidesSF talk about privileged containers:
+
+{{< youtube 5VgSFRyI38w >}}
 
 ### Next up
 We'll cover resource limits in the next exercise:

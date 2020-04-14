@@ -34,9 +34,16 @@ Before we deploy, let's see what this app does.
 Use the Cloud Shell Editor, or open the code your terminal:
 
 ```
-less apps/simple-server/main.go
-less apps/simple-server/Dockerfile
+less static/simple-server/main.go
 ```
+
+{{< embedCodeFile file="/static/simple-server/main.go" language="go" >}}
+
+```
+less static/simple-server/Dockerfile
+```
+
+{{< embedCodeFile file="/static/simple-server/Dockerfile" language="docker" >}}
 
 Let's get deployed:
 
@@ -100,8 +107,10 @@ We'll see how this can still be exposed on the same port using a Service, even t
 
 See the diff in the Dockerfile:
 ```
-diff apps/simple-server/Dockerfile apps/simple-server/Dockerfile-nonroot
+diff static/simple-server/Dockerfile static/simple-server/Dockerfile-nonroot
 ```
+
+{{< embedCodeFile file="/static/simple-server/nonroot.patch" language="patch" >}}
 
 ...and in the YAML:
 ```

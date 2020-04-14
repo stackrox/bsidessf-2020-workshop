@@ -40,8 +40,8 @@ kubectl get pod -n struts -w
 
 ### Attack
 
-```
-apps/struts/attack struts "$(./utils/get-node-extip):30003"
+```bash
+static/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
 ### Countermeasure
@@ -51,8 +51,10 @@ with an image that has a small modification to account for that.
 Check out what's different in the Dockerfile:
 
 ```
-diff apps/struts/Dockerfile apps/struts/Dockerfile-ro
+diff static/struts/Dockerfile static/struts/Dockerfile-ro
 ```
+
+{{< embedCodeFile file="/static/struts/ro.patch" language="diff" >}}
 
 Not too much! Just a path we want to make writable.
 
@@ -76,8 +78,8 @@ kubectl get pod -n struts -w
 
 Then we'll attack it:
 
-```
-apps/struts/attack struts "$(./utils/get-node-extip):30003"
+```bash
+static/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
 👍

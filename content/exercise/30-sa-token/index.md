@@ -10,8 +10,6 @@ toc = true
 weight = 30
 +++
 
-<!-- TODO: Tune RBAC as a separate item? (see 40-rbac) -->
-
 ### Introduction
 In this exercise, we cover:
 
@@ -69,7 +67,9 @@ Resources                  Non-Resource URLs   Resource Names   Verbs
 *.*                        []                  []               [*]
 ```
 
-This is super dangerous! As Ian Coldwater [tweeted](https://twitter.com/IanColdwater/status/1225949531512197126), "We are all made of stars, but your RBAC shouldn't be."
+This is super dangerous! As Ian Coldwater tweeted:
+
+{{< tweet 1225949531512197126 >}}
 
 Let's do some of the stuff we're allowed to. The first will fail due to scope. But others won't.
 ```
@@ -127,7 +127,7 @@ Disable the `automountServiceAccountToken` field in the [`PodSpec`](https://kube
 
 You can also disable it in the service account spec.
 
-These can interact confusingly; check the docs.
+These can interact confusingly; check [the docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server).
 
 ### Next up
 We'll cover how namespaces can help you implement security "speed bumps" in the next exercise:

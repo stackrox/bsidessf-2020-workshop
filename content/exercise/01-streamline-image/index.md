@@ -31,8 +31,10 @@ adversaries isolated or at bay.
 Check out the base Dockerfile before we continue:
 
 ```
-less apps/struts/Dockerfile
+less static/struts/Dockerfile
 ```
+
+{{< embedCodeFile file="/static/struts/Dockerfile" language="docker" >}}
 
 Now, deploy the application:
 
@@ -51,7 +53,7 @@ Use a canned exploit that launches a shell, downloads a cryptominer,
 and runs it.
 
 ```
-apps/struts/attack struts "$(./utils/get-node-extip):30003"
+static/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
 😱
@@ -61,9 +63,11 @@ We'll update to a new image with some common tools removed, mostly via a slimmer
 
 Check out what's different in the Dockerfile:
 
+```bash
+diff static/struts/Dockerfile static/struts/Dockerfile-streamlined
 ```
-diff apps/struts/Dockerfile apps/struts/Dockerfile-streamlined
-```
+
+{{< embedCodeFile file="/static/struts/streamlined.patch" language="diff" >}}
 
 And [see the difference between image versions in Quay.io](https://quay.io/repository/connorg/struts?tab=tags).
 
@@ -81,8 +85,8 @@ kubectl get pod -n struts -w
 
 Then we'll attack it:
 
-```
-apps/struts/attack struts "$(./utils/get-node-extip):30003"
+```bash
+static/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
 👍

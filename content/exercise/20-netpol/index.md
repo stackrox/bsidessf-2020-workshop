@@ -29,13 +29,17 @@ First, let's take a look at the app. You can use the Cloud Shell
 editor, or the terminal:
 
 ```
-less apps/ssrf/main.go
+less static/ssrf/main.go
 ```
+
+{{< embedCodeFile file="/static/ssrf/main.go" language="go" >}}
 
 Then let's check out the Dockerfile, which is quite simple:
 ```
-less apps/ssrf/Dockerfile
+less static/ssrf/Dockerfile
 ```
+
+{{< embedCodeFile file="/static/ssrf/Dockerfile" language="docker" >}}
 
 This is an example of using the `scratch` base image, which has effectively nothing in it.
 Other similar options include "distroless" containers, or container-focused minimal OSes.
