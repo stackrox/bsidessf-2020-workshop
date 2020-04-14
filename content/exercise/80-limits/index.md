@@ -24,7 +24,7 @@ memory exhaustion denial of service. This will be fun to watch...
 
 We'll use something sort of like a "Billion Laughs"-style attack. Here's the example
 from [Kubernetes CVE-2019-11253](https://github.com/kubernetes/kubernetes/issues/83253):
-```
+```yaml
 apiVersion: v1
 data:
   a: &a ["web","web","web","web","web","web","web","web","web"]
@@ -47,8 +47,10 @@ The example app just allocates memory based on the value of the parameter you gi
 View the code:
 
 ```
-less apps/memory-exploder/main.go
+less static/memory-exploder/main.go
 ```
+
+{{< embedCodeFile file="/static/memory-exploder/main.go" language="go" >}}
 
 Then deploy:
 ```
@@ -57,13 +59,13 @@ kubectl apply -f https://securek8s.dev/memory-exploder/buggy.yaml
 
 ### "Attack"
 Call the bad method:
-```
+```bash
 curl -X POST http://$(utils/get-node-extip):30002/1234
 ```
 
 This will work. But bump up the number and it will start getting bad!
 
-```
+```bash
 curl -X POST http://$(utils/get-node-extip):30002/123456789012345
 ```
 

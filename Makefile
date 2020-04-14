@@ -1,8 +1,15 @@
+.PHONY: pull-submodules
 pull-submodules:
 	git submodule update --init --recursive
 
-build:
+.PHONY: diffs
+diffs:
+	hack/generate-diffs.sh
+
+.PHONY: build
+build: diffs
 	hugo
 
-preview:
+.PHONY: preview
+preview: diffs
 	hugo server

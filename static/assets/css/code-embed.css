@@ -1,0 +1,24 @@
+.linktofile {
+  width: 100%;
+  text-align: right;
+  display: block;
+
+  font-style: italic;
+  font-size: .875rem;
+  font-family: Consolas,monaco,monospace;
+  text-decoration: none;
+
+  clear: both;
+}
+
+.linktofile img {
+  display: inline-block;
+  width: auto;
+  margin-right: .25em;
+  vertical-align: middle;
+}
+
+.linktofile span {
+  text-decoration: underline;
+  display: inline-block;
+}
