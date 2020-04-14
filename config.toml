@@ -4,6 +4,8 @@ title = "Kubernetes Built-in Controls Workshop"
 theme = "ananke"
 copyright = "Connor Gilbert and StackRox, Inc."
 
+googleAnalytics = "UA-145376512-4"
+
 menus = ["main"]
 
 Paginate = 15
