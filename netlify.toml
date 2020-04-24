@@ -1,0 +1,4 @@
+[build.environment]
+  HUGO_ENV = "production"
+  # See https://docs.netlify.com/configure-builds/common-configurations/#hugo
+  HUGO_VERSION="0.69.0"
