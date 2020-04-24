@@ -5,7 +5,7 @@ description = ""
 slug = ""
 tags = []
 title = "Bonus: Apply good, consistent metadata"
-draft = false
+draft = true
 toc = true
 weight = 90
 +++

@@ -74,8 +74,6 @@ We'll use the fake SSRF exploit to access:
  - The Struts service we deployed earlier
      - `/fetch?url=http://struts.struts:30003`
 
-Also, try our Struts exploit out again.
-
 ### Countermeasure
 We'll apply an egress NetworkPolicy that blocks access to these services.
 

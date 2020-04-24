@@ -48,12 +48,23 @@ Wait for it to deploy:
 kubectl get pod -n struts -w
 ```
 
+You're ready to move on once your pod is marked `Running`.
+
 ### Attack
 Use a canned exploit that launches a shell, downloads a cryptominer,
 and runs it.
 
 ```
 static/struts/attack struts "$(./utils/get-node-extip):30003"
+```
+
+If the connection and exploit succeed, you'll see the cryptominer process running, something like:
+
+```
+Processes running:
+    PID COMMAND
+      1 java
+     62 minerd
 ```
 
 😱
@@ -83,13 +94,24 @@ Wait for it to deploy:
 kubectl get pod -n struts -w
 ```
 
-Then we'll attack it:
+You're ready to move on when your new pod (with a smaller `AGE` value) is `Running`,
+and the older pod is `Terminating`.
+
+Then we'll attack the new one:
 
 ```bash
 static/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
+You'll see an error from the same injected command we ran earlier:
+
+```
+sh: 1: wget: not found
+```
+
 👍
+
+That's because we've removed `wget`.
 
 ### Attack effects after patching
 The adversary is annoyed by your minimal environment and has to

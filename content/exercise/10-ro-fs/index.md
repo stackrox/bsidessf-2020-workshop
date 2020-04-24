@@ -38,10 +38,21 @@ Wait for it to deploy:
 kubectl get pod -n struts -w
 ```
 
+You're ready to move on once your pod is marked `Running`.
+
 ### Attack
 
 ```bash
 static/struts/attack struts "$(./utils/get-node-extip):30003"
+```
+
+If the connection and exploit succeed, you'll see the cryptominer process running, something like:
+
+```
+Processes running:
+    PID COMMAND
+      1 java
+     62 minerd
 ```
 
 ### Countermeasure
@@ -76,10 +87,19 @@ Wait for it to deploy:
 kubectl get pod -n struts -w
 ```
 
-Then we'll attack it:
+You're ready to move on when your new pod (with a smaller `AGE` value) is `Running`,
+and the older pod is `Terminating`.
+
+Then we'll attack the new one:
 
 ```bash
 static/struts/attack struts "$(./utils/get-node-extip):30003"
+```
+
+You'll see an error because we can't download the cryptominer code:
+
+```
+/miner.tgz: Read-only file system
 ```
 
 👍
