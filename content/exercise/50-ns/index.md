@@ -34,27 +34,31 @@ The secret is mounted into both deployments in the default namespace, even thoug
 
 Let's try to reach out from `bad-server` to `server`.
 
-Find a pod:
+Find a bad-server pod:
 ```
-kubectl get pod
+kubectl get pod -l app=bad-server
 ```
 
 Exec into it:
 ```
-kubectl exec -it <pod> bash
+kubectl exec -it $(kubectl get po -l app=bad-server --output=jsonpath='{.items[0].metadata.name}') bash
 ```
 
 Then install `curl` and note that we can reach the other service:
 ```
 apt-get update && apt-get install -y curl
+```
+```
 curl http://server
 ```
 
 We also have our unexpected secret, which has proxy credentials... something like `bad-server` doesn't seem like it should have those...
 
 ```
-cat /my-config/config.yaml
+cat /my-config/config.yaml && echo
 ```
+
+Hit `Ctrl-D` to exit the pod.
 
 ### Countermeasure
 Move deployments into separate namespaces.
@@ -77,6 +81,11 @@ kubectl get pod -n bad
 kubectl describe pod -n bad
 ```
 
+The error will look like:
+```
+Warning  FailedMount  3s (x5 over 10s)  kubelet, gke-my-cluster-default-pool-eb6132ff-48ss  MountVolume.SetUp failed for volume "config" : secret "secret-config" not found
+```
+
 So let's deploy a fixed version:
 
 ```
@@ -86,18 +95,20 @@ kubectl apply -f https://securek8s.dev/namespaces/split-no-mount.yaml
 Now the pod will deploy:
 
 ```
-kubectl get pod -n bad
+kubectl get pod -n bad -w
 ```
 
 ### Attack effects after patching
 Let's exec in:
 ```
-kubectl exec -it -n bad <pod> bash
+kubectl exec -it -n bad $(kubectl get po -n bad -l app=bad-server --output=jsonpath='{.items[0].metadata.name}') bash
 ```
 
 And then let's repeat our attempt to contact the good server:
 ```
 apt-get update && apt-get install -y curl
+```
+```
 curl http://server.good
 ```
 
@@ -109,6 +120,8 @@ Just to be sure we didn't break _everything_, let's check we can talk to our own
 ```
 curl http://bad-server
 ```
+
+Hit `Ctrl-D` to exit the pod.
 
 ### How to use it yourself
 `kubectl create ns <your-namespace>` (or use a YAML, as shown in the example).

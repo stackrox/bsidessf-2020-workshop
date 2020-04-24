@@ -60,7 +60,7 @@ kubectl get po -n nonroot
 
 And exec into it:
 ```
-kubectl exec -it -n nonroot <pod> sh
+kubectl exec -it -n nonroot $(kubectl get po -n nonroot --output=jsonpath='{.items[0].metadata.name}') sh
 ```
 
 _Note:_ We're using `sh` now because this is an Alpine image.
@@ -77,6 +77,8 @@ cat /host/etc/hosts
 ```
 
 Can you think of anything else?
+
+Hit `Ctrl-D` to exit the pod.
 
 ### Countermeasure
 First, we'll set `runAsNonRoot` in the pod's `securityContext`.
@@ -99,8 +101,10 @@ You'll see that the pods are failing to create:
 kubectl get pod -n nonroot
 ```
 
-The error is `Error: container has runAsNonRoot and image will run as root`.
-As a result, our old deployment config is still active.
+You'll see a status `CreateContainerConfigError`.
+
+If you `kubectl describe -n nonroot <your-pod-name>`, you'll see an error `Error: container has runAsNonRoot and image will run as root`.
+Since the new container can't launch successfully, Kubernetes has left the old pod active still.
 
 Next, we'll change to an image that's _actually_ been prepared to run as non-root.
 We'll see how this can still be exposed on the same port using a Service, even though thee container has switched from 80 to 8080.
@@ -125,6 +129,20 @@ kubectl apply -f https://securek8s.dev/simple-server/app-nonroot.yaml
 Our change successfully rolls out:
 ```
 kubectl get pod -n nonroot -w
+```
+
+You're ready to move on when your new pod (with a smaller `AGE` value) is `Running`,
+and the older pod is `Terminating`.
+
+Then, you can continue trying to execute commands in the containers:
+```
+kubectl exec -it -n nonroot $(kubectl get po -n nonroot --output=jsonpath='{.items[0].metadata.name}') sh
+```
+
+Perhaps try adding new code:
+```
+apk update
+apk add curl
 ```
 
 ### Attack effects after patching

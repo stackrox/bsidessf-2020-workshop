@@ -69,7 +69,12 @@ This will work. But bump up the number and it will start getting bad!
 curl -X POST http://$(utils/get-node-extip):30002/123456789012345
 ```
 
-You can exit from the request and try to run `kubectl top` to see the pod fall over.
+You can exit from the request and try to run:
+```
+kubectl top pod -n buggy
+```
+to see the pod fall over.
+(It's a bit of a race!)
 
 (Note: for the purposes of the workshop, we won't try to make
 nodes completely fall over...)
@@ -93,6 +98,12 @@ kubectl diff -f https://securek8s.dev/memory-exploder/limited.yaml
 The app gets OOMKilled and restarted instead of causing nodes to
 become unstable or crash.
 
+You can see a fresh pod being created after your request:
+
+```
+kubectl get pod -n buggy
+```
+
 ### How to use it yourself
 Add requests and limits to each of your pods.
 
@@ -101,6 +112,10 @@ Too low a CPU limit can interfere with app functionality, especially if you do t
 Too low a memory limit will get your app OOMKilled repeatedly.
 
 ### Next up
+All done for now! 🙂
+
+<!--
 We'll cover effective metadata in the next exercise:
 
 [**Bonus: Apply good, consistent metadata**](../90-metadata)
+-->

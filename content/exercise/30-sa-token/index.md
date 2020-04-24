@@ -37,15 +37,21 @@ kubectl get po -n sa
 
 Then exec inside:
 ```
-kubectl exec -it -n sa <pod> bash
+kubectl exec -it -n sa $(kubectl get po -n sa --output=jsonpath='{.items[0].metadata.name}') bash
 ```
 
 ### "Attack"
 Download kubectl for easy probing.
 (Your pod is writable, so this is easy--thanks!)
+
+First install `curl`:
 ```
 apt-get update
 apt-get install -y curl
+```
+
+Then add `kubectl`:
+```bash
 curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
 chmod +x kubectl
 ```
@@ -60,7 +66,7 @@ Perform queries to find out what we're authorized to do:
 ./kubectl auth can-i --list
 ```
 
-😱 Those stars mean that we can do anything!
+😱 Those stars at the top mean that we can do anything!
 
 ```
 Resources                  Non-Resource URLs   Resource Names   Verbs
@@ -81,15 +87,16 @@ shell-5485958cc-2hvj8   1/1     Running   0          117s
 # ./kubectl run --rm -it --image ubuntu -- bash
 ```
 
+Hit `Ctrl-D` twice—once to get our of the Ubuntu container, then to get out of the first one we entered.
+
 ### Countermeasure
 We'll:
  - grant a smaller role to the service account, and
  - disable token automount in the pod.
 
 ```
+kubectl auth reconcile -f https://securek8s.dev/sa/rbac-streamlined.yaml
 kubectl apply -f https://securek8s.dev/sa/no-sa-mount.yaml
-kubectl delete -f https://securek8s.dev/sa/rbac-streamlined.yaml
-kubectl apply -f https://securek8s.dev/sa/rbac-streamlined.yaml
 ```
 
 Find a pod:
@@ -99,7 +106,7 @@ kubectl get po -n sa
 
 Then exec inside:
 ```
-kubectl exec -it -n sa <pod> bash
+kubectl exec -it -n sa $(kubectl get po -n sa --output=jsonpath='{.items[0].metadata.name}') bash
 ```
 
 ### Attack effects after patching
@@ -121,6 +128,8 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s http
 chmod +x kubectl
 ./kubectl auth can-i --list
 ```
+
+Hit `Ctrl-D` to exit the pod.
 
 ### How to use it yourself
 Disable the `automountServiceAccountToken` field in the [`PodSpec`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.15/#podspec-v1-core).
