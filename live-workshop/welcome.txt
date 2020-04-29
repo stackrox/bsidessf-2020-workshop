@@ -1,6 +1,6 @@
 Welcome to the Cloud Shell!
 
 Next, run:
-./cloudshell/setup.sh
+./live-workshop/setup.sh
 
 Be sure to provide the user number you were given, not anyone else's.
