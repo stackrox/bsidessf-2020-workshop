@@ -53,7 +53,7 @@ kubectl apply -f https://securek8s.dev/ssrf/base.yaml
 The service is deployed on a NodePort on port 31302. Open it in your browser by running:
 
 ```
-open "http://${WORKSHOP_NODE_IP:-localhost}:31302"
+open "http://${WORKSHOP_NODE_IP:-localhost}:31302/fetch?url=http://checkip.dyndns.com"
 ```
 
 or create a new browser tab directly.
@@ -61,14 +61,17 @@ or create a new browser tab directly.
 ### Attack
 We'll use the fake SSRF exploit to access:
 
- - The cloud provider metadata server (if you're in a cloud)
+ - A service that returns your node's public IP address (shown above)
+ - The cloud provider metadata server
+     - This works only if you're in a cloud or similar environment.
      - `/fetch?url=http://169.254.169.254`
      - See what you can find in there!
  - The Kubernetes API
      - `/fetch?url=https://kubernetes.default`
  - The kubelet read-only API
-     - `/fetch?url=http://169.254.123.1:10255/pods`
-     - What do you see in there?
+     - This works in most environments, but some (like Docker for Mac) disable the read-only port
+     - `/fetch?url=http://169.254.123.1:10255/pods` works in GKE
+     - This lists out every pod on the node—what interesting things can you find?
  - The Struts service we deployed earlier
      - `/fetch?url=http://struts.struts:31301`
 
@@ -91,6 +94,8 @@ We'll see how this egress policy allows us to contact our app from the outside, 
 (Kubernetes policies apply to connections--not to packets.)
 
 To do this, just try the examples above again.
+
+_Note:_ Some cluster types (like Docker for Mac) don't support network policies.
 
 ### Attack effects after patching
 The adversary won't be able to use your app's network connection

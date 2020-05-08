@@ -77,7 +77,7 @@ This is super dangerous! As Ian Coldwater tweeted:
 
 {{< tweet 1225949531512197126 >}}
 
-Let's do some of the stuff we're allowed to. The first will fail due to scope. But others won't.
+Let's do some of the stuff we're allowed to. The first may fail depending on the cluster setup. But others won't.
 ```
 # ./kubectl get po --all-namespaces
 Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:sa:default" cannot list resource "pods" in API group "" at the cluster scope

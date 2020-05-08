@@ -16,7 +16,8 @@ In this exercise, we cover:
  - How to set resource limits
  - What can happen if you don't
 
-_Note:_ This exercise needs a little bit of work, at least to use in Cloud Shell. It'll be updated soon.
+_Note:_ This exercise can be a little finicky in cloud environments.
+And be careful that you don't request too much memory if your cluster is running on your machine and doesn't enforce overall memory limits.
 
 ### Setup
 In this example, we'll use an app with an exploitable
@@ -66,15 +67,21 @@ curl -X POST "http://${WORKSHOP_NODE_IP:-localhost}:31304/1234"
 This will work. But bump up the number and it will start getting bad!
 
 ```bash
-curl -X POST "http://${WORKSHOP_NODE_IP:-localhost}:31304/123456789012345"
+curl -X POST "http://${WORKSHOP_NODE_IP:-localhost}:31304/123456789012"
 ```
 
 You can exit from the request and try to run:
 ```
 kubectl top pod -n buggy
 ```
-to see the pod fall over.
+to see the pod fall over, if your cluster has Heapster installed.
 (It's a bit of a race!)
+
+On Docker for Mac you may have more luck with:
+
+```
+docker stats
+```
 
 (Note: for the purposes of the workshop, we won't try to make
 nodes completely fall over...)
@@ -91,7 +98,7 @@ kubectl diff -f https://securek8s.dev/memory-exploder/buggy-but-limited.yaml
 Then deploy:
 
 ```
-kubectl diff -f https://securek8s.dev/memory-exploder/limited.yaml
+kubectl diff -f https://securek8s.dev/memory-exploder/buggy-but-limited.yaml
 ```
 
 ### Attack effects after patching
@@ -102,6 +109,20 @@ You can see a fresh pod being created after your request:
 
 ```
 kubectl get pod -n buggy
+```
+
+The app will hang up early if you make the same large request from earlier:
+
+```bash
+curl -X POST "http://${WORKSHOP_NODE_IP:-localhost}:31304/123456789012"
+```
+
+If you check your pods again, you'll see that the container restarted:
+
+```
+# kubectl get pod -n buggy
+NAME                     READY   STATUS    RESTARTS   AGE
+buggy-6659cc6895-29j98   1/1     Running   1          2m50s
 ```
 
 ### How to use it yourself
