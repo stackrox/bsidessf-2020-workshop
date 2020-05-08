@@ -58,6 +58,8 @@ and runs it.
 static/struts/attack struts "$(./utils/get-node-extip):30003"
 ```
 
+(If you haven't cloned the workshop repository, {{< downloadLink file="/static/struts/attack" prompt="download the attack script" >}}, make it executable by running `chmod +x attack`, then run it.)
+
 If the connection and exploit succeed, you'll see the cryptominer process running, something like:
 
 ```

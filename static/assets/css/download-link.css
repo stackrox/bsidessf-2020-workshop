@@ -1,0 +1,19 @@
+.download-link {
+  text-align: right;
+  display: inline-block;
+
+  font-style: italic;
+  text-decoration: none;
+
+  clear: both;
+}
+
+.download-link img {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+
+.download-link span {
+  text-decoration: underline;
+}
