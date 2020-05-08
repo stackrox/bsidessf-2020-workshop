@@ -43,7 +43,7 @@ You're ready to move on once your pod is marked `Running`.
 ### Attack
 
 ```bash
-static/struts/attack.sh struts "$(./utils/get-node-extip):30003"
+static/struts/attack.sh struts "${WORKSHOP_NODE_IP:-localhost}:30003"
 ```
 
 (If you haven't cloned the workshop repository, {{< downloadLink file="/static/struts/attack.sh" prompt="download the attack script" >}}, make it executable by running `chmod +x attack.sh`, then run it.)
@@ -95,7 +95,7 @@ and the older pod is `Terminating`.
 Then we'll attack the new one:
 
 ```bash
-static/struts/attack.sh struts "$(./utils/get-node-extip):30003"
+static/struts/attack.sh struts "${WORKSHOP_NODE_IP:-localhost}:30003"
 ```
 
 You'll see an error because we can't download the cryptominer code:

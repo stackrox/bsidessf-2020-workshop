@@ -50,15 +50,13 @@ Then, let's deploy:
 kubectl apply -f https://securek8s.dev/ssrf/base.yaml
 ```
 
-The service is deployed on a NodePort on port 30001.
-
-Find an IP of one of your nodes to try it out:
+The service is deployed on a NodePort on port 30001. Open it in your browser by running:
 
 ```
-./utils/get-node-extip
+open "http://${WORKSHOP_NODE_IP:-localhost}:30001"
 ```
 
-Then open `<your ip>:30001` in a new browser tab.
+or create a new browser tab directly.
 
 ### Attack
 We'll use the fake SSRF exploit to access:
