@@ -23,7 +23,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 0
       containers:
-      - image: connorg/struts:0.0.2-ro
+      - image: connorg/struts:0.0.3-ro
         name: api
         ports:
         - containerPort: 8080
