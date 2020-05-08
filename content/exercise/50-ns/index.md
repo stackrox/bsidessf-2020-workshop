@@ -113,7 +113,8 @@ curl http://server.good
 ```
 
 Note, we've had to give a name that includes the other service's namespace, now that we are in another namespace.
-It won't work! Good.
+
+If our NetworkPolicies are being enforced, it won't work! (This depends on your cluster configuration.)
 
 Just to be sure we didn't break _everything_, let's check we can talk to our own bad-server:
 

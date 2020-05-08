@@ -120,8 +120,8 @@ If you need a writable path, use a `VOLUME` instruction
 (if you deploy only on clusters or machines running Docker)
 or mount a Kubernetes `emptyDir` if you want a solution that
 works on other runtimes (especially CRI-O, which by default simply
-[ignores](https://medium.com/cri-o/cri-o-configurable-image-volume-support-dda7b54f4bda)
-your `VOLUME` declarations).
+[combines](https://medium.com/cri-o/cri-o-configurable-image-volume-support-dda7b54f4bda)
+your `VOLUME` declarations into the root filesystem).
 
 ### Next up
 We'll explore host mounts, and their read-only bit, in the next exercise:

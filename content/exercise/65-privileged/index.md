@@ -23,10 +23,10 @@ We'll exec directly into a container in this example.
 This example is based on Ian Coldwater and Duffie Cooley's example from [Black Hat USA 2019](https://github.com/mauilion/blackhat-2019).
 
 As a preliminary step, we'll deploy nginx and then spy on it later.
-_(Note: adjust the replica count to match the number of nodes in your cluster.)_
+_(Note: If needed, adjust the replica count to match the number of nodes in your cluster.)_
 
 ```
-export NODE_COUNT="$(kubectl get nodes --no-headers | wc -l | tr -d)"
+export NODE_COUNT="$(kubectl get nodes --no-headers | wc -l)"
 kubectl create deployment nginx --image=nginx:stable
 kubectl scale deployment nginx --replicas $NODE_COUNT
 kubectl get pods -w
