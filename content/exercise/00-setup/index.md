@@ -11,17 +11,17 @@ weight = 1
 +++
 
 To complete the exercises, you'll need:
-* a Kubernetes cluster, and
-* a command-line terminal with the [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) client.
+- a Kubernetes cluster, and
+- a command-line terminal with the [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) client.
 
 ### Get a cluster
 If you're completing these exercises on your own, you'll need to provide your own cluster.
 Here are a few ways to get a cluster running:
-* Install [Docker for Mac](https://docs.docker.com/docker-for-mac/) or [Docker for Windows](https://docs.docker.com/docker-for-windows/) and enable Kubernetes.
-  * On Windows, keep the default setting so you can run Linux containers. [Switch back to Linux](https://docs.docker.com/docker-for-windows/#switch-between-windows-and-linux-containers) if you currently use Windows containers.
-* Install [Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/).
-* [Create a cluster in Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine/docs/quickstart) or a similar managed Kubernetes service.
-* Use another tool to create a cluster.
+- Install [Docker for Mac](https://docs.docker.com/docker-for-mac/) or [Docker for Windows](https://docs.docker.com/docker-for-windows/) and enable Kubernetes.
+  - On Windows, keep the default setting so you can run Linux containers. [Switch back to Linux](https://docs.docker.com/docker-for-windows/#switch-between-windows-and-linux-containers) if you currently use Windows containers.
+- Install [Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/).
+- [Create a cluster in Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine/docs/quickstart) or a similar managed Kubernetes service.
+- Use another tool to create a cluster.
 
 You can do all the exercises with a CPU core or two; one node should work fine.
 
@@ -61,6 +61,43 @@ These exercises intentionally introduce vulnerable services into your cluster.
 You can see the materials for each exercise on the site, and the `kubectl` commands download files straight from the site so you don't need to have them on your machine.
 
 However, if you do clone [the GitHub repository](https://github.com/stackrox/bsidessf-2020-workshop) for this site, you'll get a few extra scripts and you'll be able to view files in your own editor instead of your browser.
+
+### Set your node IP
+To complete the exercises without modifying them yourself, you'll need to be able to access your cluster by using [**NodePort**](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) services.
+
+The exercises use hardcoded NodePort numbers for simplicity.
+If you're running other applications in your cluster, or you've customized your [NodePort range](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport), you may need to modify the examples.
+
+The examples use a variable, `WORKSHOP_NODE_IP`, that defaults to `localhost`.
+
+ - If you're using a local setup like Docker for Mac, `localhost` should work.
+ - If you're using a different type of cluster, you may have to set a value for `WORKSHOP_NODE_IP`.
+
+```bash
+export WORKSHOP_NODE_IP="<your-ip-or-hostname>"
+```
+
+#### "Smoke test"
+Use the smoke-test deploy to make sure you can access services.
+If you can't access the smoke-test, the server-based deploys probably won't work, though you can follow along with most of the other exercises.
+
+```bash
+kubectl create -f https://securek8s.dev/smoke-test/deploy.yaml
+```
+
+You should be able to see the "Welcome to nginx!" page on port 30000 on your `WORKSHOP_NODE_IP`:
+
+```bash
+open "http://${WORKSHOP_NODE_IP:-localhost}:30000"
+```
+
+If this doesn't work, check the output of `kubectl describe node` or:
+```
+kubectl get node -o wide
+```
+to see if other listed IPs or hostnames work.
+
+If you're running in a cloud, you'll usually need to add a firewall rule that allows traffic to the NodePort range (at least ports 30000-30005 for these examples) on your cluster nodes.
 
 ### Next up
 Get started!
