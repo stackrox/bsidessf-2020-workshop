@@ -30,7 +30,7 @@ Your cluster needs to meet a few requirements:
     - Depending on where and how you're building your cluster, you may have to set a configuration option when you create your cluster or complete an upgrade later.
     - For example, in GKE, you'd use the [`--enable-network-policy`](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--enable-network-policy) option.
 - You'll need to be able to access services using [NodePort service](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport), if you want to use the exercises without making your own modifications.
-    - In some environments, like clouds, you may have to create a firewall rule to allow your machine to access ports in the 30000-30010 range.
+    - In some environments, like clouds, you may have to create a firewall rule to allow your machine to access ports in the 31300-31305 range.
     - If you can't expose NodePort services, you can create port-forwards. However, you may have to restart them after you replace pods in certain exercises.
 - Your cluster nodes must be able to pull publicly available images from Docker Hub.
 
@@ -85,10 +85,10 @@ If you can't access the smoke-test, the server-based deploys probably won't work
 kubectl create -f https://securek8s.dev/smoke-test/deploy.yaml
 ```
 
-You should be able to see the "Welcome to nginx!" page on port 30000 on your `WORKSHOP_NODE_IP`:
+You should be able to see the "Welcome to nginx!" page on port 31300 on your `WORKSHOP_NODE_IP`:
 
 ```bash
-open "http://${WORKSHOP_NODE_IP:-localhost}:30000"
+open "http://${WORKSHOP_NODE_IP:-localhost}:31300"
 ```
 
 If this doesn't work, check the output of `kubectl describe node` or:
@@ -97,7 +97,13 @@ kubectl get node -o wide
 ```
 to see if other listed IPs or hostnames work.
 
-If you're running in a cloud, you'll usually need to add a firewall rule that allows traffic to the NodePort range (at least ports 30000-30005 for these examples) on your cluster nodes.
+If you're running in a cloud, you'll usually need to add a firewall rule that allows traffic to the NodePort range (at least ports 31300-31305 for these examples) on your cluster nodes, for example:
+
+```
+gcloud compute firewall-rules create allow-vanity-ports --allow tcp:31300-31305
+```
+
+Make a more targeted rule by specifying target nodes and your source IP address if you can.
 
 ### Next up
 Get started!

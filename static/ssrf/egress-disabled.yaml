@@ -36,8 +36,8 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      nodePort: 30001
-      port: 30001
+      nodePort: 31302
+      port: 31302
       targetPort: 8080
   type: NodePort
 ---

@@ -43,7 +43,7 @@ spec:
   ports:
     - name: https
       protocol: TCP
-      nodePort: 30002
-      port: 30002
+      nodePort: 31304
+      port: 31304
       targetPort: 80
   type: NodePort
