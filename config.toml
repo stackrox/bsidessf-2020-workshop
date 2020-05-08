@@ -14,7 +14,10 @@ SectionPagesMenu = ["section"]
 [params]
   mainSections = ["post"] # Disable recent-content widget by using a non-existent content type
   recent_posts_number = 0
-  custom_css = ["assets/css/code-embed.css"]
+  custom_css = [
+    "assets/css/code-embed.css",
+    "assets/css/download-link.css",
+  ]
 
 [markup]
   [markup.highlight]

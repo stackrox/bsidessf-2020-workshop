@@ -1,0 +1,30 @@
+<!--
+Adapted from https://github.com/scgmlz/hugo-theme-scgdoc/blob/2ea1be12/layouts/shortcodes/highlightfile.html
+
+Renders a download link with proper file-download browser behavior (rather than opening the file in the browser).
+File should be located either in the same directory or full path should be specified.
+-->
+
+{{- $src := (.Get "file") -}}
+
+{{- if in $src "/" -}}
+  {{ $filelink := (replaceRE "^[/]+static" "" $src) }}
+  {{ $justTheSplit := split $filelink "/" }}
+  {{ $lastPartOnly := index (last 1 $justTheSplit) 0}}
+
+  {{ .Scratch.Set "link" $filelink }}
+  {{ .Scratch.Set "linkname" $lastPartOnly }}
+{{- else -}}
+  {{ $file := (printf "%s%s" $.Page.File.Dir $src) }}
+
+  {{ .Scratch.Set "link" $file }}
+  {{ .Scratch.Set "linkname" $src }}
+{{- end -}}
+
+{{ $link := .Scratch.Get "link" }}
+{{ $linkname := .Scratch.Get "linkname" }}
+{{- $prompt := .Get "prompt" | default ($linkname) }}
+<a class="download-link" href="{{ .Site.BaseURL }}{{ $link }}" download="{{ $linkname }}" />
+  <span>{{ $prompt }}</span>
+  <img src="/assets/svg/feather-download.svg" alt="download" height="16" width="16" />
+</a>
