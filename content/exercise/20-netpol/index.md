@@ -50,10 +50,10 @@ Then, let's deploy:
 kubectl apply -f https://securek8s.dev/ssrf/base.yaml
 ```
 
-The service is deployed on a NodePort on port 30001. Open it in your browser by running:
+The service is deployed on a NodePort on port 31302. Open it in your browser by running:
 
 ```
-open "http://${WORKSHOP_NODE_IP:-localhost}:30001"
+open "http://${WORKSHOP_NODE_IP:-localhost}:31302"
 ```
 
 or create a new browser tab directly.
@@ -61,7 +61,7 @@ or create a new browser tab directly.
 ### Attack
 We'll use the fake SSRF exploit to access:
 
- - The cloud provider metadata server
+ - The cloud provider metadata server (if you're in a cloud)
      - `/fetch?url=http://169.254.169.254`
      - See what you can find in there!
  - The Kubernetes API
@@ -70,7 +70,7 @@ We'll use the fake SSRF exploit to access:
      - `/fetch?url=http://169.254.123.1:10255/pods`
      - What do you see in there?
  - The Struts service we deployed earlier
-     - `/fetch?url=http://struts.struts:30003`
+     - `/fetch?url=http://struts.struts:31301`
 
 ### Countermeasure
 We'll apply an egress NetworkPolicy that blocks access to these services.

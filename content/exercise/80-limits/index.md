@@ -60,13 +60,13 @@ kubectl apply -f https://securek8s.dev/memory-exploder/buggy.yaml
 ### "Attack"
 Call the bad method:
 ```bash
-curl -X POST "http://${WORKSHOP_NODE_IP:-localhost}:30002/1234"
+curl -X POST "http://${WORKSHOP_NODE_IP:-localhost}:31304/1234"
 ```
 
 This will work. But bump up the number and it will start getting bad!
 
 ```bash
-curl -X POST "http://${WORKSHOP_NODE_IP:-localhost}:30002/123456789012345"
+curl -X POST "http://${WORKSHOP_NODE_IP:-localhost}:31304/123456789012345"
 ```
 
 You can exit from the request and try to run:

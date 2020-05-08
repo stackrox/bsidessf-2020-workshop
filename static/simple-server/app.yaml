@@ -41,7 +41,7 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      nodePort: 30005
-      port: 30005
+      nodePort: 31303
+      port: 31303
       targetPort: 80
   type: NodePort
