@@ -36,8 +36,8 @@ kubectl get po -n sa
 ```
 
 Then exec inside:
-```
-kubectl exec -it -n sa $(kubectl get po -n sa --output=jsonpath='{.items[0].metadata.name}') bash
+```bash
+kubectl exec -it -n sa "$(kubectl get po -n sa --output=jsonpath='{.items[0].metadata.name}')" -- bash
 ```
 
 ### "Attack"
@@ -105,8 +105,8 @@ kubectl get po -n sa
 ```
 
 Then exec inside:
-```
-kubectl exec -it -n sa $(kubectl get po -n sa --output=jsonpath='{.items[0].metadata.name}') bash
+```bash
+kubectl exec -it -n sa "$(kubectl get po -n sa --output=jsonpath='{.items[0].metadata.name}')" -- bash
 ```
 
 ### Attack effects after patching

@@ -59,8 +59,8 @@ kubectl get po -n nonroot
 ```
 
 And exec into it:
-```
-kubectl exec -it -n nonroot $(kubectl get po -n nonroot --output=jsonpath='{.items[0].metadata.name}') sh
+```bash
+kubectl exec -it -n nonroot "$(kubectl get po -n nonroot --output=jsonpath='{.items[0].metadata.name}')" -- sh
 ```
 
 _Note:_ We're using `sh` now because this is an Alpine image.
@@ -135,8 +135,8 @@ You're ready to move on when your new pod (with a smaller `AGE` value) is `Runni
 and the older pod is `Terminating`.
 
 Then, you can continue trying to execute commands in the containers:
-```
-kubectl exec -it -n nonroot $(kubectl get po -n nonroot --output=jsonpath='{.items[0].metadata.name}') sh
+```bash
+kubectl exec -it -n nonroot "$(kubectl get po -n nonroot --output=jsonpath='{.items[0].metadata.name}')" -- sh
 ```
 
 Perhaps try adding new code:
