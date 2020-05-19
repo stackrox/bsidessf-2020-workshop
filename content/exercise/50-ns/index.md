@@ -40,8 +40,8 @@ kubectl get pod -l app=bad-server
 ```
 
 Exec into it:
-```
-kubectl exec -it $(kubectl get po -l app=bad-server --output=jsonpath='{.items[0].metadata.name}') bash
+```bash
+kubectl exec -it "$(kubectl get po -l app=bad-server --output=jsonpath='{.items[0].metadata.name}')" -- bash
 ```
 
 Then install `curl` and note that we can reach the other service:
@@ -100,8 +100,8 @@ kubectl get pod -n bad -w
 
 ### Attack effects after patching
 Let's exec in:
-```
-kubectl exec -it -n bad $(kubectl get po -n bad -l app=bad-server --output=jsonpath='{.items[0].metadata.name}') bash
+```bash
+kubectl exec -it -n bad "$(kubectl get po -n bad -l app=bad-server --output=jsonpath='{.items[0].metadata.name}')" -- bash
 ```
 
 And then let's repeat our attempt to contact the good server:

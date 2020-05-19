@@ -53,7 +53,7 @@ kubectl get po -n mounts
 
 Then get into it:
 ```bash
-kubectl exec -it -n mounts $(kubectl get po -n mounts --output=jsonpath='{.items[0].metadata.name}') bash
+kubectl exec -it -n mounts "$(kubectl get po -n mounts --output=jsonpath='{.items[0].metadata.name}')" -- bash
 ```
 
 Now, try some host modifications and information gathering attempts:
@@ -149,8 +149,8 @@ kubectl get po -n mounts
 ```
 
 Then get into it:
-```
-kubectl exec -it -n mounts $(kubectl get po -n mounts --output=jsonpath='{.items[0].metadata.name}') bash
+```bash
+kubectl exec -it -n mounts "$(kubectl get po -n mounts --output=jsonpath='{.items[0].metadata.name}')" -- bash
 ```
 
 ### Attack effects after patching
