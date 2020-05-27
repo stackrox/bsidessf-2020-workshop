@@ -17,6 +17,7 @@ SectionPagesMenu = ["section"]
   custom_css = [
     "assets/css/code-embed.css",
     "assets/css/download-link.css",
+    "assets/css/tweaks.css",
   ]
 
 [markup]
