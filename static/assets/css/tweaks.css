@@ -1,0 +1,4 @@
+time {
+  /* Disable date-time; these aren't blog posts */
+  display: none !important
+}
