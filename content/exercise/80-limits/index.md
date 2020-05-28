@@ -98,7 +98,7 @@ kubectl diff -f https://securek8s.dev/memory-exploder/buggy-but-limited.yaml
 Then deploy:
 
 ```
-kubectl diff -f https://securek8s.dev/memory-exploder/buggy-but-limited.yaml
+kubectl apply -f https://securek8s.dev/memory-exploder/buggy-but-limited.yaml
 ```
 
 ### Attack effects after patching
@@ -108,7 +108,7 @@ become unstable or crash.
 You can see a fresh pod being created after your request:
 
 ```
-kubectl get pod -n buggy
+kubectl get pod -n buggy -w
 ```
 
 The app will hang up early if you make the same large request from earlier:
