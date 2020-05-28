@@ -36,7 +36,7 @@ Let's try to reach out from `bad-server` to `server`.
 
 Find a bad-server pod:
 ```
-kubectl get pod -l app=bad-server
+kubectl get pod -l app=bad-server -w
 ```
 
 Exec into it:
@@ -77,7 +77,7 @@ This will fail to launch the `bad-server` pod because we're accidentally mountin
 The pod itself will fail to create, so you'll only see an error if you check the pods:
 
 ```
-kubectl get pod -n bad
+kubectl get pod -n bad -w
 kubectl describe pod -n bad
 ```
 

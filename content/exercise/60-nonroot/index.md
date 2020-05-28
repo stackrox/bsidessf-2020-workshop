@@ -98,7 +98,7 @@ kubectl apply -f https://securek8s.dev/simple-server/app-not-allowed.yaml
 
 You'll see that the pods are failing to create:
 ```
-kubectl get pod -n nonroot
+kubectl get pod -n nonroot -w
 ```
 
 You'll see a status `CreateContainerConfigError`.
